@@ -1,0 +1,98 @@
+.footer{
+  background-color: #F3F1F1;     
+  position: relative;
+  z-index: -1;  
+  width:100%;
+}
+
+#minhaTabela{
+  font-size: 11px;
+}
+
+#minhaTabela_wrapper .dataTables_filter,
+#minhaTabela_wrapper .dataTables_length{
+  margin-bottom: 1rem;
+}
+
+/*Efeito Fade in*/
+@-webkit-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; } 
+  }
+  @-moz-keyframes fadeIn {
+  0% { opacity: 0;}
+  100% { opacity: 1; }
+  }
+  @-o-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+  }
+  @keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+  }
+
+.fadeIn {
+  -webkit-animation: fadeIn 1s ease-in-out;
+  -moz-animation: fadeIn 1s ease-in-out;
+  -o-animation: fadeIn 1s ease-in-out;
+  animation: fadeIn 1s ease-in-out;
+}	
+
+.customText{
+  background: #FFFFFF !important;
+  font-family: Times New Roman, serif;
+  font-size: 14px;
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+}
+
+.corpoRecibo{
+  min-height: 180px;
+}
+
+.tituloRecibo{
+  font-size: 10px;
+}
+
+#calendar{
+  max-width: 1200px;
+  margin: 0 auto;  
+}
+
+.fc-event {
+  cursor: pointer;
+}
+
+.fc-col-header-cell a {
+  color: inherit;            
+  text-decoration: none;     
+  pointer-events: none;     
+}
+
+.fc-daygrid-day a {
+  color: inherit;            
+  text-decoration: none;     
+}
+
+.btnSideBar{ 
+  margin: 1px;
+}
+
+.btnSideBar:hover{
+  background-color: #4e555c !important;
+  border-radius: 5px;
+  color: white !important;
+  font-weight: bold;
+}
+
+.btnSideBar:hover i{  
+  color: white !important;
+  font-weight: bold;
+}
+
+.dropdown-item:active, 
+.dropdown-item.active,
+.dropdown-item:hover {
+    background-color: #e9ecef !important;
+}
