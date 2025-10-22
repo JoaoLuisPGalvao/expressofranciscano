@@ -13,7 +13,7 @@
                   <div class="row">
                      <div class="col-md-12">                        
                         <div class="form-floating mb-3">
-                           <input type="text" class="form-control text-uppercase" id="name" name="name" value="{{ auth()->user()->name }}" placeholder="Nome" required>
+                           <input type="text" class="form-control text-uppercase" id="name_reset" name="name_reset" value="{{ auth()->user()->name }}" placeholder="Nome" required>
                            <label for="name">* Usuário</label>
                         </div>
                      </div>
@@ -21,14 +21,14 @@
                   <div class="row">            
                      <div class="col-12 col-md-6">
                         <div class="form-floating mb-3">
-                           <input type="password" class="form-control" id="password" name="password" placeholder="Digite a senha" required>
+                           <input type="password" class="form-control" id="password_reset" name="password_reset" placeholder="Digite a senha" required>
                            <label for="password">* Senha atual</label>                  
                         </div>
                      </div>
                      <div class="col-12 col-md-6">
                         <div class="form-floating mb-3">
-                           <input type="password" class="form-control" id="password2" name="password2" placeholder="Nova senha" required>
-                           <label for="password2">* Nova senha</label>                  
+                           <input type="password" class="form-control" id="password_new" name="password_new" placeholder="Nova senha" required>
+                           <label for="password_new">* Nova senha</label>                  
                         </div>
                      </div>
                   </div>

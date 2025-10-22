@@ -48,4 +48,16 @@ class User extends Authenticatable
         'nivel'                         => 'int',
         'status'                        => 'int',        
     ];
+
+    public function createdByName(){
+        return $this->belongsTo(User::class, 'created_by_name');
+    }
+
+    public function updatedByName(){
+        return $this->belongsTo(User::class, 'updated_by_name');
+    }
+
+    public function deletedByName(){
+        return $this->belongsTo(User::class, 'deleted_by_name');
+    }
 }

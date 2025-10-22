@@ -107,18 +107,23 @@
                                         });                                
                                 })
                             </script>
-                        @elseif(session('msgErro'))
+                        @endif                        
+
+                        @if($errors->any())
                             <script>
-                                document.addEventListener('DOMContentLoaded', () => {
-                                    Swal.fire({                                            
-                                        icon: "error",
-                                        title: "Erro!",
-                                        text: "{{ session('msgErro') }}",
-                                        showConfirmButton: false,
-                                        timer: 3000
-                                        });                                 
-                                })
-                            </script>                        
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Erro!',
+                                    confirmButtonColor: "#DC3545",                                    
+                                    html: `
+                                        <ul style="text-align:left;">
+                                            @foreach($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    `
+                                });
+                            </script>
                         @endif
 
                         @yield('content') 

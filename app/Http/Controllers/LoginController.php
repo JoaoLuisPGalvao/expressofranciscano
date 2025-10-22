@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AtivoInativo;
-use App\Enums\StatusAtivoInativo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginRequest;
@@ -27,7 +26,7 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        $usuario = auth()->user();
+        $usuario = Auth::user();
 
         if ($usuario->status != AtivoInativo::ATIVO) {
             

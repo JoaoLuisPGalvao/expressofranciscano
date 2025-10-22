@@ -66,8 +66,8 @@
             </div>
             <div class="col-12 col-md-6">
                <div class="form-floating mb-2">
-                  <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirme a senha" required>
-                  <label for="password2">* Confirme a senha</label>                  
+                  <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirme a senha" required>
+                  <label for="password_confirmation">* Confirme a senha</label>                  
                </div>
             </div>
          </div>        
