@@ -77,6 +77,14 @@
                                     </nav>
                                 </div>
                             @endcan
+                            <a class="nav-link py-2" href="{{ route('home.index') }}">
+                                <div class="sb-nav-link-icon"><i class="bi bi-house fs-5"></i> </div>
+                                Home
+                            </a>
+                            <a class="nav-link py-2" href="{{ route('encontristas.index') }}">
+                                <div class="sb-nav-link-icon"><i class="bi bi-person-raised-hand fs-5"></i> </div>
+                                Encontristas
+                            </a>
                             @if(auth()->user()->can('administrador') || auth()->user()->can('locomotor'))
                                 <a class="nav-link py-2" href="{{ route('users.index') }}">
                                     <div class="sb-nav-link-icon"><i class="bi bi-person-circle fs-5"></i> </div>

@@ -4,6 +4,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\EncontristasController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,12 +30,25 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showRequestForm'])->name('password.reset');
 Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
+Route::controller(HomeController::class)->prefix('home')->name('home.')->middleware('auth')->group(function(){
+    Route::get('/index', 'index')->name('index');
+});
+
 Route::controller(UsersController::class)->prefix('users')->name('users.')->middleware('auth')->group(function(){
     Route::get('/index', 'index')->name('index');
     Route::get('/create', 'create')->name('create');
     Route::post('/', 'store')->name('store');  
     Route::get('/edit/{user}', 'edit')->name('edit');
-    Route::delete('/{user}', 'destroy')->name('destroy')->middleware('can:adm/master');  
+    Route::delete('/{user}', 'destroy')->name('destroy')->middleware('can:administrador');  
     Route::put('/{user}', 'update')->name('update');
     Route::post('/{user}', 'alterarSenha')->name('alterarSenha');
+});
+
+Route::controller(EncontristasController::class)->prefix('encontristas')->name('encontristas.')->middleware('auth')->group(function(){
+    Route::get('/index', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/', 'store')->name('store');  
+    Route::get('/edit/{encontrista}', 'edit')->name('edit');
+    Route::delete('/{encontrista}', 'destroy')->name('destroy')->middleware('can:administrador');  
+    Route::put('/{encontrista}', 'update')->name('update');
 });

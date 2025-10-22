@@ -34,7 +34,7 @@ class LoginController extends Controller
             return redirect('/')->withErrors(['error' => 'Usuário sem acesso. Contate o suporte para regularização.']);
         }
 
-        return redirect()->intended(route('users.index'));
+        return redirect()->intended(route('home.index'));
     }
 
     public function destroy(){
