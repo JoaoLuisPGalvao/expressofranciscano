@@ -74,25 +74,3 @@
   color: inherit;            
   text-decoration: none;     
 }
-
-.btnSideBar{ 
-  margin: 1px;
-}
-
-.btnSideBar:hover{
-  background-color: #4e555c !important;
-  border-radius: 5px;
-  color: white !important;
-  font-weight: bold;
-}
-
-.btnSideBar:hover i{  
-  color: white !important;
-  font-weight: bold;
-}
-
-.dropdown-item:active, 
-.dropdown-item.active,
-.dropdown-item:hover {
-    background-color: #e9ecef !important;
-}

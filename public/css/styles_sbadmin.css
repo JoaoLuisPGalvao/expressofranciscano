@@ -11076,6 +11076,55 @@ body {
   background-color: #e9ecef;
 }
 
+/** Personalização Expresso Moderno - Laranja Suave Ajustado **/
+
+.sb-sidenav-orange {
+  background-color: #F1603C; /* Laranja levemente suavizado */
+  color: #FFFFFF; /* Texto principal claro */
+}
+
+.sb-sidenav-orange .sb-sidenav-menu .sb-sidenav-menu-heading {
+  color: #FFC8B0; /* Heading laranja claro */
+}
+
+.sb-sidenav-orange .sb-sidenav-menu .nav-link {
+  color: #FFFFFF;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.sb-sidenav-orange .sb-sidenav-menu .nav-link .sb-nav-link-icon {
+  color: #FFE7DB; /* Ícones claros */
+}
+
+.sb-sidenav-orange .sb-sidenav-menu .nav-link .sb-sidenav-collapse-arrow {
+  color: #FFE7DB; /* Setas claras */
+}
+
+.sb-sidenav-orange .sb-sidenav-menu .nav-link:hover {
+  color: #FFFFFF;
+  background-color: #FF7043; /* Hover laranja mais vibrante */
+  border-radius: 5px;
+  font-weight: bold;  
+}
+
+.sb-sidenav-orange .sb-sidenav-menu .nav-link.active {
+  color: #FFFFFF;
+  background-color: #FF8666; /* Ativo laranja suave mas ainda vibrante */
+}
+
+.sb-sidenav-orange .sb-sidenav-menu .nav-link.active .sb-nav-link-icon {
+  color: #FFFFFF;
+}
+
+.sb-sidenav-orange .sb-sidenav-footer {
+  background-color: #E64A19; /* Footer laranja escuro */
+  color: #FFFFFF;
+  padding: 1rem;
+}
+
+/** ---------------------------- **/
+
+
 .datatable-wrapper .datatable-container {
   font-size: 0.875rem;
 }

@@ -4,15 +4,17 @@ namespace App\Enums;
 
 class NivelUser{
 
-    public const ADMINISTRADOR = 1;
-    public const MASTER        = 2;
-    public const BASICO        = 3;
+    public const ADMINISTRADOR  = 1;
+    public const MAQUINISTA     = 2;
+    public const LOCOMOTOR      = 3;
+    public const MEMBRO         = 4;
 
     public static function nivelUser(){
         return [
             self::ADMINISTRADOR => 'Administrador',
-            self::MASTER        => 'Master',
-            self::BASICO        => 'Básico',
+            self::MAQUINISTA    => 'Maquinista',
+            self::LOCOMOTOR     => 'Locomotor',
+            self::MEMBRO        => 'Membro',
         ];
     }
 }

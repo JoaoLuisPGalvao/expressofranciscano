@@ -37,18 +37,18 @@
        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     </head>
     <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <nav class="sb-topnav navbar navbar-expand navbar-orange" style="background-color: #F0623C;" data-bs-theme="light">
 
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-4" href="#"><img src="/img/brand.png" width="130" height="40" alt=""></a>
+            <a class="navbar-brand text-center" href="#"><img src="/img/brand.png" width="130" height="50" alt=""></a>
 
             <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>            
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 text-light" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>            
             
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <a class="nav-link dropdown-toggle text-light" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">  
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlterarSenha"><i class="bi bi-person-fill-lock me-1 fs-5"></i> Alterar senha</a></li>
                         <li><hr class="dropdown-divider"></li>                      
@@ -59,18 +59,30 @@
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <nav class="sb-sidenav accordion sb-sidenav-orange" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
 
                         <hr class="mt-0">
 
                         <div class="nav">
-                            @can('adm/master')
-                                <a class="nav-link py-2 btnSideBar" href="{{ route('users.index') }}">
+                            @can('administrador') 
+                                <a class="nav-link collapsed py-2" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdministrador" aria-expanded="false" aria-controls="collapseAdministrador">
+                                    <div class="sb-nav-link-icon"><i class="bi bi-person-fill-gear fs-5"></i></div>
+                                    Administrador
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseAdministrador" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link py-1" href="">- Teste</a>                                            
+                                    </nav>
+                                </div>
+                            @endcan
+                            @if(auth()->user()->can('administrador') || auth()->user()->can('locomotor'))
+                                <a class="nav-link py-2" href="{{ route('users.index') }}">
                                     <div class="sb-nav-link-icon"><i class="bi bi-person-circle fs-5"></i> </div>
                                     Usuários
-                                </a>                                      
-                            @endcan 
+                                </a>
+                            @endif
                         </div>                            
                     </div>
                     <div class="sb-sidenav-footer">

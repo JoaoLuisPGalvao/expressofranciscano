@@ -46,7 +46,7 @@
 		</button>
 
 		<div class="text-center">
-			<a href="" class="text-decoration-none">Esqueceu a senha?</a>
+			<a href="{{ route('password.request') }}" class="text-decoration-none">Esqueceu a senha?</a>
 		</div>
 	</form>
 </div>

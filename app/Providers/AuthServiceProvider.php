@@ -28,8 +28,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->nivel === NivelUser::ADMINISTRADOR;
         });
 
-        Gate::define('adm/master', function(User $user){
-            return $user->nivel !== NivelUser::BASICO;
+        Gate::define('maquinista', function(User $user){
+            return $user->nivel === NivelUser::MAQUINISTA;
+        });
+
+        Gate::define('locomotor', function(User $user){
+            return $user->nivel === NivelUser::LOCOMOTOR;
         });
     }
 }
