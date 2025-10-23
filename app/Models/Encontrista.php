@@ -35,6 +35,7 @@ class Encontrista extends Authenticatable
         'endereco_cidade',
         'endereco_estado',
         'endereco_cep',
+        'foto',
         'status'        
     ];
 
@@ -65,7 +66,6 @@ class Encontrista extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [       
-        'data_nasc'     => 'date',
         'genero'        => 'int',
         'ano_expresso'  => 'int', 
         'pais_casados'  => 'int', 

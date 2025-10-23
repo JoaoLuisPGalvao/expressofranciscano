@@ -115,7 +115,21 @@
                                         });                                
                                 })
                             </script>
-                        @endif                        
+                        @endif      
+                        
+                        @if(session('msgErro'))
+                            <script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    Swal.fire({                                            
+                                        icon: "error",
+                                        title: "Erro!",
+                                        text: "{{ session('msgErro') }}",
+                                        showConfirmButton: false,
+                                        timer: 3000
+                                        });                                
+                                })
+                            </script>
+                        @endif        
 
                         @if($errors->any())
                             <script>

@@ -5,11 +5,15 @@
 @section('content')
 
 <div class="row-fluid">	    
-    <x-card size="col-12 col-xxl-10">
+    <x-card size="col-12 col-lg-11 col-xxl-10">
         <x-slot name="header">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="mb-0 fw-bold">Encontristas</h4>
-                <div class="d-flex gap-2">                    
+                <div class="d-flex gap-2">   
+                    <form class="d-flex align-items-center" method="GET" action="">
+                        <input type="number" min="2024" class="form-control form-control-sm me-2 text-center" name="ano" value="{{ $ano }}">
+                        <x-btn-pesquisar title="Pesquisar"></x-btn-pesquisar>   
+                    </form>                                      
                     <x-btn-cadastrar href="{{ route('encontristas.create') }}" title="Cadastrar novo econtrista"></x-btn-cadastrar>
                 </div>
             </div>
@@ -19,17 +23,31 @@
             <x-table>
                 <x-slot name="thead">                   
                     <tr>
-                        <th style="width: 5%">#</th>
-                        <th style="width: 25%">NOME</th>
-                        <th style="width: 25%">E-MAIL</th>                    
-                        <th style="width: 15%">NÍVEL</th>
-                        <th style="width: 15%">EQUIPE</th>
+                        <th style="width: 30%">NOME</th>
+                        <th style="width: 10%">DATA NASC</th>                    
+                        <th style="width: 10%">CPF</th>                    
+                        <th style="width: 5%">GENERO</th>
+                        <th style="width: 30%">MÃE</th>
                         <th style="width: 10%">STATUS</th>                        
                         <th style="width: 5%">AÇÕES</th>
                     </tr>                
-                </x-slot>
-                
-                                                                
+                </x-slot> 
+                @foreach($encontristas as $encontrista)                        
+                <tr>
+                    <td>{{ $encontrista->nome }}</td>                         
+                    <td>{{ formatDate($encontrista->data_nasc) }}</td>
+                    <td>{{ $encontrista->cpf }}</td>
+                    <td>{{ $generos[$encontrista->genero] }}</td>
+                    <td>{{ $encontrista->mae_nome }}</td>
+                    <td><span class="badge text-bg-{{ $encontrista->status == 1 ? 'success' : 'danger' }}">{{ $status[$encontrista->status] }}</span> </td>                    
+                    <td class="py-1">
+                        <x-dropdown-acao                                                    
+                            :edit-route="route('encontristas.edit', $encontrista)"
+                            :delete-route="route('encontristas.destroy', $encontrista)" >
+                        </x-dropdown-acao>
+                    </td>
+                </tr>  
+                @endforeach 
             </x-table>
         </x-slot>
     </x-card>     

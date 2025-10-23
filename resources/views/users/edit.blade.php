@@ -64,8 +64,7 @@
                   </select>
                   <label for="equipe">* Equipe</label>
                </div>
-            </div>      
-            
+            </div> 
          </div>  
       </x-slot>
 

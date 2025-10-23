@@ -40,7 +40,7 @@ class UsersController extends Controller
         'status'    => 1,
         ]);
         
-        return redirect(route('users.index'))->with('success', 'Usuário ' . strtoupper($request->name) . ' cadastrado com sucesso!');
+        return redirect(route('users.index'))->with('msg', 'Usuário ' . strtoupper($request->name) . ' cadastrado com sucesso!');
     }
 
     public function edit(User $user){
