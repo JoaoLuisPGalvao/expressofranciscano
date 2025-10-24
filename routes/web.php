@@ -52,4 +52,6 @@ Route::controller(EncontristasController::class)->prefix('encontristas')->name('
     Route::get('/ficha/{encontrista}', 'ficha')->name('ficha');
     Route::delete('/{encontrista}', 'destroy')->name('destroy')->middleware('can:administrador');  
     Route::put('/{encontrista}', 'update')->name('update');
+    Route::get('/gerarCsv', 'gerarCsv')->name('gerarCsv');
+    Route::get('/gerarAllFichas', 'gerarAllFichas')->name('gerarAllFichas');
 });

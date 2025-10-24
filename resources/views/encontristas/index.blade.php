@@ -15,6 +15,8 @@
                         <x-btn-pesquisar title="Pesquisar"></x-btn-pesquisar>   
                     </form>                                      
                     <x-btn-cadastrar href="{{ route('encontristas.create') }}" title="Cadastrar novo econtrista"></x-btn-cadastrar>
+                    <x-btn-gerar-csv href="{{ route('encontristas.gerarCsv', ['ano' => request()->get('ano')]) }}" title="Gerar Excel"></x-btn-gerar-csv>
+                    <x-btn-gerar-pdf href="{{ route('encontristas.gerarAllFichas', ['ano' => request()->get('ano')]) }}" title="Gerar Todas Fichas"></x-btn-pdf-csv>
                 </div>
             </div>
         </x-slot>

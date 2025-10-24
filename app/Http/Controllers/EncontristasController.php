@@ -153,4 +153,61 @@ class EncontristasController extends Controller
 
         return response($pdf->output())->header('Content-Type', 'application/pdf');
     }
+
+    public function gerarAllFichas(){    
+        
+        $generos = Generos::generos();
+        $simNao  = SimNao::lista();
+        $request = request();
+        $ano     = $request->input('ano', Carbon::now()->format('Y'));     
+
+        $encontristas = Encontrista::where('ano_expresso', $ano)->get();  
+
+        $pdf = Pdf::loadView('encontristas.allFichas', compact('encontristas', 'generos', 'simNao'))->setPaper('a4', 'portrait');
+
+        return response($pdf->output())->header('Content-Type', 'application/pdf');
+    }
+
+    public function gerarCsv(){
+
+        $generos = Generos::generos();
+        $simNao  = SimNao::lista();
+        $request = request();
+        $ano     = $request->input('ano', Carbon::now()->format('Y'));     
+
+        $encontristas = Encontrista::where('ano_expresso', $ano)->get();          
+        
+        $csvNomeArquivo = tempnam(sys_get_temp_dir(), 'csv_' . Str::uuid());       
+        $arquivoAberto  = fopen($csvNomeArquivo, 'w');
+
+        // BOM UTF-8 para Excel
+        fwrite($arquivoAberto, chr(0xEF).chr(0xBB).chr(0xBF));
+
+        $topo = ['Relação de Encontristas - '.$ano, '', '', '', '','', '', '', '', ''];
+        fputcsv($arquivoAberto, $topo, ';');        
+        
+        $cabecalho = ['NOME', 'CPF', 'DATA NASC', 'GENERO', 'PAI', 'MÃE', 'PAIS CASADOS?', 'RUA/NR', 'BAIRRO', 'CIDADE/ESTADO'];
+        fputcsv($arquivoAberto, $cabecalho, ';');
+
+        foreach($encontristas as $encontrista){
+            $encontristaArray = [
+                'NOME'          => strtoupper($encontrista->nome),
+                'CPF'           => $encontrista->cpf,
+                'DATA NASC'     => $encontrista->data_nasc,
+                'GENERO'        => $generos[$encontrista->genero],
+                'PAI'           => strtoupper($encontrista->pai_nome).' - '.$encontrista->pai_contato,
+                'MÃE'           => strtoupper($encontrista->mae_nome).' - '.$encontrista->mae_contato,
+                'PAIS CASADOS?' => $simNao[$encontrista->pais_casados],
+                'RUA/NR'        => $encontrista->endereco_rua.' - '.$encontrista->endereco_numero,
+                'BAIRRO'        => $encontrista->endereco_bairro,
+                'CIDADE/ESTADO' => $encontrista->endereco_cidade.'/'.$encontrista->endereco_estado,
+            ];
+            
+            fputcsv($arquivoAberto, $encontristaArray, ';');
+        }
+        
+        fclose($arquivoAberto);
+        
+        return response()->download($csvNomeArquivo, 'Relacao_encontristas.csv')->deleteFileAfterSend(true);
+    }
 }
