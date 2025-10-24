@@ -33,7 +33,7 @@
                     </tr>                
                 </x-slot> 
                 @foreach($encontristas as $encontrista)                        
-                <tr>teste
+                <tr>
                     <td>{{ $encontrista->nome }}</td>                         
                     <td>{{ formatDate($encontrista->data_nasc) }}</td>
                     <td>{{ $encontrista->cpf }}</td>
