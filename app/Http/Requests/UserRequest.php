@@ -15,7 +15,8 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         // Captura o ID do usuário atual na rota (ex: users/{user})
-        $userId = $this->route('user');
+        $user = $this->route('user');
+        $userId = $user ? $user->id : null;
 
         return [
             'name' => ['required', 'string', 'max:255'],
@@ -23,7 +24,7 @@ class UserRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
-                'unique:users,email,' . $userId,
+                Rule::unique('users', 'email')->ignore($userId),
             ],
             'password' => [                
                 Rule::requiredIf($this->isMethod('post')),

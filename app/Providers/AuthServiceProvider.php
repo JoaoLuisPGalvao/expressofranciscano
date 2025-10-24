@@ -35,5 +35,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('locomotor', function(User $user){
             return $user->nivel === NivelUser::LOCOMOTOR;
         });
+
+        Gate::define('excluir-registro', function (User $user) {
+            return $user->can('administrador') || $user->can('maquinista');
+        });
     }
 }

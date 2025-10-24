@@ -39,7 +39,7 @@ Route::controller(UsersController::class)->prefix('users')->name('users.')->midd
     Route::get('/create', 'create')->name('create');
     Route::post('/', 'store')->name('store');  
     Route::get('/edit/{user}', 'edit')->name('edit');
-    Route::delete('/{user}', 'destroy')->name('destroy')->middleware('can:administrador');  
+    Route::delete('/{user}', 'destroy')->name('destroy')->middleware('can:excluir-registro');  
     Route::put('/{user}', 'update')->name('update');
     Route::post('/{user}', 'alterarSenha')->name('alterarSenha');
 });
@@ -50,7 +50,7 @@ Route::controller(EncontristasController::class)->prefix('encontristas')->name('
     Route::post('/', 'store')->name('store');  
     Route::get('/edit/{encontrista}', 'edit')->name('edit');
     Route::get('/ficha/{encontrista}', 'ficha')->name('ficha');
-    Route::delete('/{encontrista}', 'destroy')->name('destroy')->middleware('can:administrador');  
+    Route::delete('/{encontrista}', 'destroy')->name('destroy')->middleware('can:excluir-registro');  
     Route::put('/{encontrista}', 'update')->name('update');
     Route::get('/gerarCsv', 'gerarCsv')->name('gerarCsv');
     Route::get('/gerarAllFichas', 'gerarAllFichas')->name('gerarAllFichas');
