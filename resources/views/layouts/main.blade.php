@@ -85,7 +85,7 @@
                                 <div class="sb-nav-link-icon"><i class="bi bi-person-raised-hand fs-5"></i> </div>
                                 Encontristas
                             </a>
-                            @if(auth()->user()->can('administrador') || auth()->user()->can('locomotor'))
+                            @if(auth()->user()->can('administrador') || auth()->user()->can('maquinista'))
                                 <a class="nav-link py-2" href="{{ route('users.index') }}">
                                     <div class="sb-nav-link-icon"><i class="bi bi-person-circle fs-5"></i> </div>
                                     Usuários
