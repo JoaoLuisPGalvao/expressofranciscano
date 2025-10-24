@@ -30,20 +30,18 @@
             </li>
         @endif
 
-        {{-- Botão Excluir (se existir rota) --}}
-        @if($deleteRoute)
-            @can('administrador')
-            <li>
-                <form id="formExcluir{{ $itemId }}" action="{{ $deleteRoute }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="dropdown-item text-danger" onclick="confirmarExclusao(event, '{{ $itemId }}')">
-                        <i class="far fa-trash-alt me-2"></i>Excluir
-                    </button>
-                </form>
-            </li>
-            @endcan
-        @endif
+        {{-- Botão Excluir (se existir rota) --}}        
+        @if($deleteRoute && (auth()->user()->can('administrador') || auth()->user()->can('maquinista')))
+        <li>
+            <form id="formExcluir{{ $itemId }}" action="{{ $deleteRoute }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="dropdown-item text-danger" onclick="confirmarExclusao(event, '{{ $itemId }}')">
+                    <i class="far fa-trash-alt me-2"></i>Excluir
+                </button>
+            </form>
+        </li>
+        @endif       
 
         {{-- Slot para ações extras --}}
         {{ $slot }}
