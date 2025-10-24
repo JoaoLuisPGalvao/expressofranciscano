@@ -22,7 +22,7 @@
         <x-slot name="body">
             <x-table>
                 <x-slot name="thead">                   
-                    <tr>
+                    <tr>teste
                         <th style="width: 25%">NOME</th>
                         <th style="width: 9%">DATA NASC</th>                    
                         <th style="width: 9%">CPF</th>                    
