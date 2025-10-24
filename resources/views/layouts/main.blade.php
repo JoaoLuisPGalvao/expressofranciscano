@@ -5,11 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>@yield('title')</title>
 
-        <!-- Meu estilo -->    	    
-        @vite([
-            'resources/css/estilo.css', 
-            'resources/css/styles_sbadmin.css'
-        ])       
+        <!-- Meu estilo -->    
+	    <link rel="stylesheet" type="text/css" href="/css/estilo.css">
+
+        <!-- Estilo -->    
+	    <link rel="stylesheet" type="text/css" href="/css/styles_sbadmin.css">
 
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">  
@@ -173,11 +173,9 @@
         <script defer src="https://use.fontawesome.com/releases/v5.10.2/js/all.js"></script>
 
         <!-- JS do app -->
-        @vite([
-            'resources/js/app.js',
-            'resources/js/mascaras.js', 
-            'resources/js/scripts_sbadmin.js'
-        ])
+        <script src="/js/app.js"></script> 
+        <script src="/js/mascaras.js"></script> 
+        <script src="/js/scripts_sbadmin.js"></script> 
         
         @stack('grafico')   
 
