@@ -24,7 +24,10 @@ class User extends Authenticatable
         'password',
         'nivel',
         'equipe',
-        'status',        
+        'status',       
+        'created_by_name',
+        'updated_by_name',
+        'deleted_by_name',  
     ];
 
     /**

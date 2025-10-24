@@ -31,8 +31,8 @@
             </div>
             <div class="col-12 col-md-3">
                <div class="form-floating mb-2">
-                  <input type="text" class="form-control maskCpf" id="cpf" name="cpf" value="{{ $encontrista->cpf }}" placeholder="CPF">
-                  <label for="cpf">CPF</label>
+                  <input type="text" class="form-control maskCpf" id="cpf" name="cpf" value="{{ $encontrista->cpf }}" placeholder="CPF" required>
+                  <label for="cpf">* CPF</label>
                </div>
             </div>         
             <div class="col-12 col-md-2">

@@ -36,7 +36,10 @@ class Encontrista extends Authenticatable
         'endereco_estado',
         'endereco_cep',
         'foto',
-        'status'        
+        'status',
+        'created_by_name',
+        'updated_by_name',
+        'deleted_by_name',            
     ];
 
     /**
@@ -57,7 +60,7 @@ class Encontrista extends Authenticatable
         'endereco_bairro',
         'endereco_cidade',
         'endereco_estado',
-        'endereco_cep',           
+        'endereco_cep', 
     ];
 
     /**
