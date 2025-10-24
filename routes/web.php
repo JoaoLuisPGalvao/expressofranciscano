@@ -49,6 +49,7 @@ Route::controller(EncontristasController::class)->prefix('encontristas')->name('
     Route::get('/create', 'create')->name('create');
     Route::post('/', 'store')->name('store');  
     Route::get('/edit/{encontrista}', 'edit')->name('edit');
+    Route::get('/ficha/{encontrista}', 'ficha')->name('ficha');
     Route::delete('/{encontrista}', 'destroy')->name('destroy')->middleware('can:administrador');  
     Route::put('/{encontrista}', 'update')->name('update');
 });

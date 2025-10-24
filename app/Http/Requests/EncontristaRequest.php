@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EncontristaRequest extends FormRequest
 {
@@ -15,7 +16,7 @@ class EncontristaRequest extends FormRequest
     {       
         $rules = [
             'nome'              => 'required|string|max:255',
-            'cpf'               => 'sometimes|string|size:14|unique:encontristas,cpf',
+            'cpf'               => ['sometimes','string','size:14',Rule::unique('encontristas', 'cpf')->ignore($this->encontrista?->id),],
             'data_nasc'         => 'required|date',
             'genero'            => 'required|integer',
             'ano_expresso'      => 'required|integer|digits:4',
@@ -29,13 +30,8 @@ class EncontristaRequest extends FormRequest
             'endereco_bairro'   => 'required|string|max:255',
             'endereco_cidade'   => 'required|string|max:255',
             'endereco_estado'   => 'required|string|max:255',
-            'endereco_cep'      => 'required|string|max:10',
-            'foto'              => 'sometimes|file|image|mimes:jpg,jpeg,png|max:300',          
+            'endereco_cep'      => 'required|string|max:10',            
         ];
-
-        if ($this->isMethod('put') || $this->isMethod('patch')) {
-            $rules['status'] = 'required|integer';
-        }
 
         return $rules;
     }

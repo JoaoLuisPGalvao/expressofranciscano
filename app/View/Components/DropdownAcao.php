@@ -9,18 +9,16 @@ use Illuminate\View\Component;
 class DropdownAcao extends Component
 {
     public $itemId;
-    public $baixarRoute;
-    public $baixarDisabled;
+    public $fichaRoute;
     public $emailRoute;
     public $emailDisabled;
     public $editRoute;
     public $deleteRoute;
 
-    public function __construct($itemId = null, $baixarRoute = null, $baixarDisabled = false, $emailRoute = null, $emailDisabled = false, $editRoute = null, $deleteRoute = null) {
+    public function __construct($itemId = null, $fichaRoute = null, $emailRoute = null, $emailDisabled = false, $editRoute = null, $deleteRoute = null) {
 
         $this->itemId           = $itemId;
-        $this->baixarRoute      = $baixarRoute;
-        $this->baixarDisabled   = $baixarDisabled;
+        $this->fichaRoute       = $fichaRoute;
         $this->emailRoute       = $emailRoute;
         $this->emailDisabled    = $emailDisabled;
         $this->editRoute        = $editRoute;

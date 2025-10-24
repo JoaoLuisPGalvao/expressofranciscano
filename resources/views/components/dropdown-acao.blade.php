@@ -3,14 +3,11 @@
         <i class="fas fa-list"></i>
     </button>
     <ul class="dropdown-menu">
-        {{-- Botão Baixa Rápida (se existir rota) --}}
-        @if($baixarRoute)
+        {{-- Botão Ficha (se existir rota) --}}
+        @if($fichaRoute)
             <li>
-                <a id="btnBaixar{{ $itemId }}" 
-                   class="dropdown-item {{ $baixarDisabled ? 'disabled' : '' }}" 
-                   href="{{ $baixarRoute }}"
-                   onclick="confirmarBaixa(event, '{{ $itemId }}')">
-                    <i class="far fa-thumbs-up text-success me-2"></i>Baixa rápida
+                <a id="btnFicha{{ $itemId }}" class="dropdown-item" href="{{ $fichaRoute }}" target="_blank">
+                    <i class="far fa-file-pdf text-danger me-2"></i>Ficha cadastral
                 </a>
             </li>
         @endif
@@ -18,8 +15,7 @@
         {{-- Botão e-mail (se existir rota) --}}
         @if($emailRoute)
             <li>
-                <a class="dropdown-item {{ $emailDisabled ? 'disabled' : '' }}" 
-                   href="{{ $emailRoute }}">
+                <a class="dropdown-item {{ $emailDisabled ? 'disabled' : '' }}" href="{{ $emailRoute }}">
                     <i class="far fa-envelope text-primary me-2"></i>Enviar e-mail
                 </a>
             </li>
@@ -36,7 +32,7 @@
 
         {{-- Botão Excluir (se existir rota) --}}
         @if($deleteRoute)
-            @can('adm/master')
+            @can('administrador')
             <li>
                 <form id="formExcluir{{ $itemId }}" action="{{ $deleteRoute }}" method="POST">
                     @csrf

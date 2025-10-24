@@ -23,12 +23,12 @@
             <x-table>
                 <x-slot name="thead">                   
                     <tr>
-                        <th style="width: 30%">NOME</th>
-                        <th style="width: 10%">DATA NASC</th>                    
-                        <th style="width: 10%">CPF</th>                    
+                        <th style="width: 25%">NOME</th>
+                        <th style="width: 9%">DATA NASC</th>                    
+                        <th style="width: 9%">CPF</th>                    
                         <th style="width: 5%">GENERO</th>
-                        <th style="width: 30%">MÃE</th>
-                        <th style="width: 10%">STATUS</th>                        
+                        <th style="width: 24%">MÃE</th>                                             
+                        <th style="width: 23%">PAI</th>                                             
                         <th style="width: 5%">AÇÕES</th>
                     </tr>                
                 </x-slot> 
@@ -38,10 +38,12 @@
                     <td>{{ formatDate($encontrista->data_nasc) }}</td>
                     <td>{{ $encontrista->cpf }}</td>
                     <td>{{ $generos[$encontrista->genero] }}</td>
-                    <td>{{ $encontrista->mae_nome }}</td>
-                    <td><span class="badge text-bg-{{ $encontrista->status == 1 ? 'success' : 'danger' }}">{{ $status[$encontrista->status] }}</span> </td>                    
+                    <td>{{ $encontrista->mae_nome }}</td> 
+                    <td>{{ $encontrista->pai_nome }}</td>                                     
+
                     <td class="py-1">
-                        <x-dropdown-acao                                                    
+                        <x-dropdown-acao           
+                            :ficha-route="route('encontristas.ficha', $encontrista)"                                         
                             :edit-route="route('encontristas.edit', $encontrista)"
                             :delete-route="route('encontristas.destroy', $encontrista)" >
                         </x-dropdown-acao>
