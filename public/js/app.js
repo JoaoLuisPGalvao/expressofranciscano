@@ -67,12 +67,15 @@ document.getElementById('endereco_cep').addEventListener('blur', async function(
         return;
     }
 
+    document.getElementById('endereco_rua').value = 'Carregando...';
+
     try {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
 
         if (data.erro) {
             alert('CEP não encontrado!');
+            document.getElementById('endereco_rua').value = '';
             return;
         }
 
@@ -82,5 +85,6 @@ document.getElementById('endereco_cep').addEventListener('blur', async function(
         document.getElementById('endereco_estado').value = data.uf;
     } catch (error) {
         alert('Erro ao buscar o endereço. Tente novamente.');
+        document.getElementById('endereco_rua').value = '';
     }
 });
