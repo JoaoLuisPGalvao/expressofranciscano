@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('.maskCpf').mask('000.000.000-00', {reverse: true});
+    $('.maskCpf').mask('000.000.000-0000', {reverse: true});
 });
 
 $(document).ready(function(){

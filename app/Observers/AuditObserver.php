@@ -4,7 +4,8 @@ namespace App\Observers;
 
 use Illuminate\Support\Facades\Auth;
 
-class EncontristaObserver
+class AuditObserver
+
 {
     public function creating($model){
         if (Auth::check()) {
