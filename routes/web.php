@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [Controller::class, 'index']);
 
-Route::get('/', [LoginController::class, 'index'])->name('index');
+Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/', [LoginController::class, 'store'])->name('store');
 Route::get('/sair', [LoginController::class, 'destroy'])->name('sair');
 

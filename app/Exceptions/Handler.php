@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -44,5 +45,19 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * Tratar casos de usuário não autenticado (sessão expirada).
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        // Se for requisição AJAX ou API, retorna JSON
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Sessão expirada. Faça login novamente.'], 401);
+        }
+
+        // Caso contrário, redireciona para login
+        return redirect()->guest(route('login'))->with('error', 'Sua sessão expirou. Faça login novamente.');
     }
 }

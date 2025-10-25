@@ -9,6 +9,13 @@
 
 	<h5 class="mb-4 fw-semibold">Faça login na sua conta</h5>
 
+	@if(session('error'))
+		<div class="alert alert-warning text-start" role="alert">
+			<i class="bi bi-exclamation-triangle-fill me-1"></i> 
+			{{ session('error') }}
+		</div>
+	@endif
+
 	@if($errors->any())
 		<div class="alert alert-danger text-start" role="alert">
 			@foreach($errors->all() as $error)
