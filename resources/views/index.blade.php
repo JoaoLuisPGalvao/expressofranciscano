@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="form-signin text-center">
-	<img src="/img/banner.jpg" alt="Logo Expresso Franciscano" class="brand-logo img-fluid mb-4" style="max-width: 200px;">       
+	<img src="/img/logo_expresso.jpg" alt="Logo Expresso Franciscano" class="brand-logo img-fluid mb-4" style="max-width: 200px;">       
 
 	<h5 class="mb-4 fw-semibold">Faça login na sua conta</h5>
 

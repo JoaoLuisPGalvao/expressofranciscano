@@ -7,10 +7,14 @@
         <table class="header" width="100%">
             <tr>
                 <td style="width: 100px; text-align: left;">
-                    <img src="{{ public_path('/img/banner.jpg') }}" alt="Logo" class="logo">
+                    <img src="{{ public_path('/img/logo_paroquia.png') }}" alt="Logo" class="logo">
                 </td>
-                <td style="text-align: center; padding-top: 30px;">
-                    <h2>FICHA CADASTRAL</h2>
+                <td style="text-align: center; padding-top: 15px;">
+                    <h3>PARÓQUIA SÃO FRANCISCO DE ASSIS</h3>
+                    <h3>Ficha Cadastral</h3>
+                </td>
+                <td style="width: 100px; text-align: left;">
+                    <img src="{{ public_path('/img/logo_expresso.jpg') }}" alt="Logo" class="logo">
                 </td>
             </tr>
         </table>
@@ -107,4 +111,22 @@
             <div style="page-break-after: always;"></div>
         @endif
     @endforeach
+@endsection
+
+@section('footer')
+    <table width="100%">
+        <tr>
+            <td style="text-align: left; font-size:10px; line-height:1.4;">
+                <strong>Paróquia São Francisco de Assis</strong><br>
+                Rua São Francisco de Assis, 195 – Bairro Conceição<br>
+                Campina Grande - PB, CEP 58401-279<br>
+                Tel: (83) 3341-5429 | paroquiasaofranciscodeassiscg@gmail.com<br>
+                Instagram: @paroquiasaofranciscodeassiscg
+            </td>
+            <td style="text-align: right; font-size:10px; vertical-align: bottom;">
+                <em>“Paz e Bem!”</em><br>
+                Página <span class="page-number"></span><span class="page-total"></span>
+            </td>
+        </tr>
+    </table>
 @endsection

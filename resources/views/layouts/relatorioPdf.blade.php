@@ -75,6 +75,21 @@
                 margin-top: 10px;
             }
 
+            .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-top: 1px solid #ccc;
+                padding: 5px 15px;
+                font-size: 10px;
+                color: #555;
+            }
+
+            .page-number:before {
+                content: counter(page);
+            }
+
         </style>
         
          <!-- favicon -->
@@ -88,8 +103,12 @@
                 @yield('content')                                    
             </div>
         </div>   
+
+        <div class="footer">
+            @yield('footer')
+        </div>
+
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     </body>
-
 </html>
