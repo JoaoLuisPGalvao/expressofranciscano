@@ -26,12 +26,12 @@
                 <x-slot name="thead">                   
                     <tr>
                         <th style="width: 25%">NOME</th>
-                        <th style="width: 9%">DATA NASC</th>                    
-                        <th style="width: 9%">CPF</th>                    
+                        <th style="width: 10%">DATA NASC</th>                    
+                        <th style="width: 10%">CPF</th>                    
                         <th style="width: 5%">GENERO</th>
-                        <th style="width: 24%">MÃE</th>                                             
+                        <th style="width: 23%">MÃE</th>                                             
                         <th style="width: 23%">PAI</th>                                             
-                        <th style="width: 5%">AÇÕES</th>
+                        <th style="width: 4%">AÇÕES</th>
                     </tr>                
                 </x-slot> 
                 @foreach($encontristas as $encontrista)                        
