@@ -14,7 +14,7 @@
                      <div class="col-md-12">                        
                         <div class="form-floating mb-3">
                            <input type="text" class="form-control text-uppercase" id="name_reset" name="name_reset" value="{{ auth()->user()->name }}" placeholder="Nome" required>
-                           <label for="name">* Usuário</label>
+                           <label for="name_reset">* Usuário</label>
                         </div>
                      </div>
                   </div>
@@ -22,7 +22,7 @@
                      <div class="col-12 col-md-6">
                         <div class="form-floating mb-3">
                            <input type="password" class="form-control" id="password_reset" name="password_reset" placeholder="Digite a senha" required>
-                           <label for="password">* Senha atual</label>                  
+                           <label for="password_reset">* Senha atual</label>                  
                         </div>
                      </div>
                      <div class="col-12 col-md-6">
