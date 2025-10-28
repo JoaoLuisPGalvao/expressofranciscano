@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Contatos;
+use App\Enums\Contatos; 
 use App\Enums\Generos;
 use App\Enums\Irmaos;
 use App\Enums\Series;
