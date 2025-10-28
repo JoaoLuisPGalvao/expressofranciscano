@@ -7,7 +7,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-    $('.maskCep').mask('00.000-000', {reverse: true});
+    $('.maskCep').mask('00000-000', {reverse: true});
 });
 
 $(document).ready(function(){

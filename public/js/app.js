@@ -88,3 +88,43 @@ document.getElementById('endereco_cep').addEventListener('blur', async function(
         document.getElementById('endereco_rua').value = '';
     }
 });
+
+//Função para habilitar e desabilitar a linha de informações do formulário do econtrista
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Função genérica para habilitar/desabilitar campos
+    function configurarToggle(selectId, campos) {
+        const select = document.getElementById(selectId);
+
+        function toggleCampos() {
+            const habilitar = select.value === '1';
+
+            campos.forEach(id => {
+                const campo = document.getElementById(id);
+                if (!campo) return;
+
+                campo.disabled = !habilitar;
+
+                if (habilitar) {
+                    campo.setAttribute('required', 'required');
+                } else {
+                    campo.removeAttribute('required');
+                    campo.value = '';
+                }
+            });
+        }
+
+        toggleCampos(); // mantém estado em caso de old()
+        select.addEventListener('change', toggleCampos);
+    }
+
+    // Configurações específicas de cada seção
+    configurarToggle('estuda', ['escola', 'serie', 'turno']);
+    configurarToggle('familiar_participa', ['familiar_quem', 'familiar_grupo']);
+    configurarToggle('tem_parente_inscrito', ['parente_inscrito_nome']);
+    configurarToggle('uso_medicamento', ['uso_medicamento_descricao']);
+    configurarToggle('tratamento_saude', ['tratamento_saude_descricao']);
+    configurarToggle('restricao_alimentar', ['restricao_alimentar_descricao']);
+    configurarToggle('alergia', ['alergia_descricao']);
+    configurarToggle('espectro_autista', ['espectro_autista_descricao']);
+});

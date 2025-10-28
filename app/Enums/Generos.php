@@ -9,8 +9,8 @@ class Generos{
 
     public static function generos(){
         return [
-            self::MASCULINO  => 'Mascuilo',
-            self::FEMININO   => 'Feminino',
+            self::MASCULINO  => 'MASCULINO',
+            self::FEMININO   => 'FEMININO',
         ];
     }
 }

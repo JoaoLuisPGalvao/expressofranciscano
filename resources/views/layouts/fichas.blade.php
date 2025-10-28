@@ -18,7 +18,7 @@
 
             .header {
                 border-bottom: 2px solid #000;
-                margin-bottom: 20px;
+                margin-bottom: 5px;
                 padding-bottom: 8px;
             }
 
@@ -35,24 +35,19 @@
             table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 15px;
+                margin-bottom: 5px;
             }
 
             td {
-                padding: 6px;
+                padding: 5px;
                 vertical-align: top;
-            }
-
-            .label {
-                font-weight: bold;
-                width: 25%;
             }
 
             .foto {
                 text-align: center;
                 border: 1px solid #ccc;
-                width: 120px;
-                height: 150px;
+                width: 110px;
+                height: 140px;
                 object-fit: cover;
             }
 
@@ -72,17 +67,17 @@
                 font-weight: bold;
                 background: #eee;
                 padding: 4px;
-                margin-top: 10px;
+                margin-top: 5px;
             }
 
             .footer {
                 position: fixed;
-                bottom: 0;
+                bottom: -20;
                 left: 0;
                 right: 0;
                 border-top: 1px solid #ccc;
                 padding: 5px 15px;
-                font-size: 10px;
+                font-size: 9px;
                 color: #555;
             }
 

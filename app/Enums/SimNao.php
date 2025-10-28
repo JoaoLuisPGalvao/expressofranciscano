@@ -9,8 +9,8 @@ class SimNao{
 
     public static function lista(){
         return [
-            self::SIM => 'Sim',
-            self::NAO => 'Não',
+            self::SIM => 'SIM',
+            self::NAO => 'NÃO',
         ];
     }
 }

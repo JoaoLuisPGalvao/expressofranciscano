@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Contatos;
 use App\Enums\Generos;
+use App\Enums\Irmaos;
+use App\Enums\Series;
 use App\Enums\SimNao;
+use App\Enums\Transportes;
+use App\Enums\Turnos;
 use App\Http\Requests\EncontristaRequest;
 use App\Models\Encontrista;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -16,9 +21,9 @@ class EncontristasController extends Controller
 {
     public function index(){
 
-        $generos = Generos::generos();
+        $generos = Generos::generos();        
         $request = request();
-        $ano     = $request->input('ano', Carbon::now()->format('Y'));
+        $ano     = $request->input('ano', Carbon::now()->format('Y'));        
 
         $encontristas = Encontrista::where('ano_expresso', $ano)->get();
 
@@ -27,23 +32,21 @@ class EncontristasController extends Controller
 
     public function create(){
 
-        $generos = Generos::generos();
-        $simNao  = SimNao::lista();   
-        $ano     = Carbon::now()->format('Y');              
+        $generos        = Generos::generos();
+        $simNao         = SimNao::lista();   
+        $irmaos         = Irmaos::lista();
+        $series         = Series::lista();
+        $turnos         = Turnos::lista();
+        $contatos       = Contatos::lista();
+        $transportes    = Transportes::lista();
+        $ano            = Carbon::now()->format('Y');              
 
-        return view('encontristas.create', compact('generos', 'simNao', 'ano')); 
+        return view('encontristas.create', compact('generos', 'simNao', 'ano', 'irmaos', 'series', 'turnos', 'contatos', 'transportes')); 
     }
 
     public function store(EncontristaRequest $request){
 
         $arquivoPath = null;
-
-        $cpf = validarCPF($request->cpf);
-
-        if(!$cpf){
-
-            return back()->withInput()->with('msgErro', 'Inscrição Federal inválida!');
-        }
 
         if ($request->hasFile('foto')) {
 
@@ -60,35 +63,65 @@ class EncontristasController extends Controller
         }
 
         Encontrista::create([     
-            'nome'              => strtoupper($request->nome),
-            'cpf'               => $request->cpf,
-            'data_nasc'         => $request->data_nasc,
-            'genero'            => $request->genero,
-            'ano_expresso'      => $request->ano_expresso,
-            'pai_nome'          => strtoupper($request->pai_nome),
-            'pai_contato'       => $request->pai_contato,
-            'mae_nome'          => strtoupper($request->mae_nome),
-            'mae_contato'       => $request->mae_contato,
-            'pais_casados'      => $request->pais_casados,
-            'endereco_rua'      => $request->endereco_rua,
-            'endereco_numero'   => $request->endereco_numero,
-            'endereco_bairro'   => $request->endereco_bairro,
-            'endereco_cidade'   => $request->endereco_cidade,
-            'endereco_estado'   => $request->endereco_estado,
-            'endereco_cep'      => $request->endereco_cep,
-            'foto'              => $arquivoPath,
-            'status'            => 1,        
+            'nome'                          => mb_strtoupper($request->nome, 'UTF-8'),          
+            'data_nasc'                     => $request->data_nasc,
+            'genero'                        => $request->genero,
+            'ano_expresso'                  => $request->ano_expresso,
+            'endereco_cep'                  => $request->endereco_cep,
+            'endereco_rua'                  => mb_strtoupper($request->endereco_rua, 'UTF-8'),
+            'endereco_numero'               => $request->endereco_numero,
+            'endereco_bairro'               => mb_strtoupper($request->endereco_bairro, 'UTF-8'),
+            'endereco_cidade'               => mb_strtoupper($request->endereco_cidade, 'UTF-8'),
+            'endereco_estado'               => $request->endereco_estado,
+            'endereco_complemento'          => mb_strtoupper($request->endereco_complemento, 'UTF-8'),
+            'estuda'                        => $request->estuda,
+            'escola'                        => mb_strtoupper($request->escola, 'UTF-8'), 
+            'serie'                         => $request->serie,
+            'turno'                         => $request->turno,
+            'tem_irmaos'                    => $request->tem_irmaos,
+            'pais_casados'                  => $request->pais_casados,            
+            'pai_nome'                      => mb_strtoupper($request->pai_nome, 'UTF-8'),
+            'pai_contato'                   => $request->pai_contato,
+            'mae_nome'                      => mb_strtoupper($request->mae_nome, 'UTF-8'),
+            'mae_contato'                   => $request->mae_contato,
+            'outro_responsavel_nome'        => mb_strtoupper($request->outro_responsavel_nome, 'UTF-8'),
+            'outro_responsavel_contato'     => $request->outro_responsavel_contato,
+            'outro_responsavel_parentesco'  => mb_strtoupper($request->outro_responsavel_parentesco, 'UTF-8'),
+            'contato_principal'             => $request->contato_principal,
+            'possui_transporte'             => $request->possui_transporte,
+            'mora_com'                      => mb_strtoupper($request->mora_com, 'UTF-8'),
+            'familiar_participa'            => $request->familiar_participa,
+            'familiar_quem'                 => mb_strtoupper($request->familiar_quem, 'UTF-8'),
+            'familiar_grupo'                => mb_strtoupper($request->familiar_grupo, 'UTF-8'),
+            'tem_parente_inscrito'          => $request->tem_parente_inscrito,
+            'parente_inscrito_nome'         => mb_strtoupper($request->parente_inscrito_nome, 'UTF-8'),
+            'uso_medicamento'               => $request->uso_medicamento,
+            'uso_medicamento_descricao'     => mb_strtoupper($request->uso_medicamento_descricao, 'UTF-8'),
+            'tratamento_saude'              => $request->tratamento_saude,
+            'tratamento_saude_descricao'    => mb_strtoupper($request->tratamento_saude_descricao, 'UTF-8'),
+            'restricao_alimentar'           => $request->restricao_alimentar,
+            'restricao_alimentar_descricao' => mb_strtoupper($request->restricao_alimentar_descricao, 'UTF-8'),
+            'alergia'                       => $request->alergia,
+            'alergia_descricao'             => mb_strtoupper($request->alergia_descricao, 'UTF-8'),
+            'espectro_autista'              => $request->espectro_autista,
+            'espectro_autista_descricao'    => mb_strtoupper($request->espectro_autista_descricao, 'UTF-8'),            
+            'foto'                          => $arquivoPath,                  
         ]);
         
-        return redirect(route('encontristas.index'))->with('msg', 'Encontrista ' . strtoupper($request->nome) . ' cadastrado com sucesso!');
+        return redirect(route('encontristas.index'))->with('msg', 'Encontrista ' . mb_strtoupper($request->nome) . ' cadastrado com sucesso!');
     }
 
     public function edit(Encontrista $encontrista){
 
-        $generos = Generos::generos();
-        $simNao  = SimNao::lista();          
+        $generos        = Generos::generos();
+        $simNao         = SimNao::lista();   
+        $irmaos         = Irmaos::lista();
+        $series         = Series::lista();
+        $turnos         = Turnos::lista();
+        $contatos       = Contatos::lista();
+        $transportes    = Transportes::lista();        
 
-        return view('encontristas.edit', compact('encontrista', 'generos', 'simNao')); 
+        return view('encontristas.edit', compact('encontrista', 'generos', 'simNao', 'irmaos', 'series', 'turnos', 'contatos', 'transportes')); 
     }
 
     public function update(Encontrista $encontrista, EncontristaRequest $request){
@@ -114,22 +147,48 @@ class EncontristasController extends Controller
         }
 
         $encontrista->fill([
-            'nome'              => strtoupper($request->nome),
-            'cpf'               => $request->cpf,
-            'data_nasc'         => $request->data_nasc,
-            'genero'            => $request->genero,
-            'ano_expresso'      => $request->ano_expresso,
-            'pai_nome'          => strtoupper($request->pai_nome),
-            'pai_contato'       => $request->pai_contato,
-            'mae_nome'          => strtoupper($request->mae_nome),
-            'mae_contato'       => $request->mae_contato,
-            'pais_casados'      => $request->pais_casados,
-            'endereco_rua'      => $request->endereco_rua,
-            'endereco_numero'   => $request->endereco_numero,
-            'endereco_bairro'   => $request->endereco_bairro,
-            'endereco_cidade'   => $request->endereco_cidade,
-            'endereco_estado'   => $request->endereco_estado,
-            'endereco_cep'      => $request->endereco_cep,
+            'nome'                          => mb_strtoupper($request->nome, 'UTF-8'),                  
+            'data_nasc'                     => $request->data_nasc,
+            'genero'                        => $request->genero,
+            'ano_expresso'                  => $request->ano_expresso,
+            'endereco_cep'                  => $request->endereco_cep,
+            'endereco_rua'                  => mb_strtoupper($request->endereco_rua, 'UTF-8'),
+            'endereco_numero'               => $request->endereco_numero,
+            'endereco_bairro'               => mb_strtoupper($request->endereco_bairro, 'UTF-8'),
+            'endereco_cidade'               => mb_strtoupper($request->endereco_cidade, 'UTF-8'),
+            'endereco_estado'               => $request->endereco_estado,
+            'endereco_complemento'          => mb_strtoupper($request->endereco_complemento, 'UTF-8'),
+            'estuda'                        => $request->estuda,
+            'escola'                        => mb_strtoupper($request->escola, 'UTF-8'), 
+            'serie'                         => $request->serie,
+            'turno'                         => $request->turno,
+            'tem_irmaos'                    => $request->tem_irmaos,
+            'pais_casados'                  => $request->pais_casados,            
+            'pai_nome'                      => mb_strtoupper($request->pai_nome, 'UTF-8'),
+            'pai_contato'                   => $request->pai_contato,
+            'mae_nome'                      => mb_strtoupper($request->mae_nome, 'UTF-8'),
+            'mae_contato'                   => $request->mae_contato,
+            'outro_responsavel_nome'        => mb_strtoupper($request->outro_responsavel_nome, 'UTF-8'),
+            'outro_responsavel_contato'     => $request->outro_responsavel_contato,
+            'outro_responsavel_parentesco'  => mb_strtoupper($request->outro_responsavel_parentesco, 'UTF-8'),
+            'contato_principal'             => $request->contato_principal,
+            'possui_transporte'             => $request->possui_transporte,
+            'mora_com'                      => mb_strtoupper($request->mora_com, 'UTF-8'),
+            'familiar_participa'            => $request->familiar_participa,
+            'familiar_quem'                 => mb_strtoupper($request->familiar_quem, 'UTF-8'),
+            'familiar_grupo'                => mb_strtoupper($request->familiar_grupo, 'UTF-8'),
+            'tem_parente_inscrito'          => $request->tem_parente_inscrito,
+            'parente_inscrito_nome'         => mb_strtoupper($request->parente_inscrito_nome, 'UTF-8'),
+            'uso_medicamento'               => $request->uso_medicamento,
+            'uso_medicamento_descricao'     => mb_strtoupper($request->uso_medicamento_descricao, 'UTF-8'),
+            'tratamento_saude'              => $request->tratamento_saude,
+            'tratamento_saude_descricao'    => mb_strtoupper($request->tratamento_saude_descricao, 'UTF-8'),
+            'restricao_alimentar'           => $request->restricao_alimentar,
+            'restricao_alimentar_descricao' => mb_strtoupper($request->restricao_alimentar_descricao, 'UTF-8'),
+            'alergia'                       => $request->alergia,
+            'alergia_descricao'             => mb_strtoupper($request->alergia_descricao, 'UTF-8'),
+            'espectro_autista'              => $request->espectro_autista,
+            'espectro_autista_descricao'    => mb_strtoupper($request->espectro_autista_descricao, 'UTF-8'),
         ]);
 
         $encontrista->save();
@@ -146,24 +205,34 @@ class EncontristasController extends Controller
 
     public function ficha(Encontrista $encontrista){    
         
-        $generos = Generos::generos();
-        $simNao  = SimNao::lista(); 
+        $generos        = Generos::generos();
+        $simNao         = SimNao::lista();   
+        $irmaos         = Irmaos::lista();
+        $series         = Series::lista();
+        $turnos         = Turnos::lista();
+        $contatos       = Contatos::lista();
+        $transportes    = Transportes::lista();   
 
-        $pdf = Pdf::loadView('encontristas.ficha', compact('encontrista', 'generos', 'simNao'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('encontristas.ficha', compact('encontrista', 'generos', 'simNao', 'irmaos', 'series', 'turnos', 'contatos', 'transportes'))->setPaper('a4', 'portrait');
 
         return response($pdf->output())->header('Content-Type', 'application/pdf');
     }
 
     public function gerarAllFichas(){    
         
-        $generos = Generos::generos();
-        $simNao  = SimNao::lista();
-        $request = request();
-        $ano     = $request->input('ano', Carbon::now()->format('Y'));     
+        $generos        = Generos::generos();
+        $simNao         = SimNao::lista();   
+        $irmaos         = Irmaos::lista();
+        $series         = Series::lista();
+        $turnos         = Turnos::lista();
+        $contatos       = Contatos::lista();
+        $transportes    = Transportes::lista();   
+        $request        = request();
+        $ano            = $request->input('ano', Carbon::now()->format('Y'));     
 
         $encontristas = Encontrista::where('ano_expresso', $ano)->get();  
 
-        $pdf = Pdf::loadView('encontristas.allFichas', compact('encontristas', 'generos', 'simNao'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('encontristas.allFichas', compact('encontristas', 'generos', 'simNao', 'ano', 'irmaos', 'series', 'turnos', 'contatos', 'transportes'))->setPaper('a4', 'portrait');
 
         return response($pdf->output())->header('Content-Type', 'application/pdf');
     }
@@ -191,12 +260,12 @@ class EncontristasController extends Controller
 
         foreach($encontristas as $encontrista){
             $encontristaArray = [
-                'NOME'          => strtoupper($encontrista->nome),
+                'NOME'          => mb_strtoupper($encontrista->nome, 'UTF-8'),
                 'CPF'           => $encontrista->cpf,
                 'DATA NASC'     => $encontrista->data_nasc,
                 'GENERO'        => $generos[$encontrista->genero],
-                'PAI'           => strtoupper($encontrista->pai_nome).' - '.$encontrista->pai_contato,
-                'MÃE'           => strtoupper($encontrista->mae_nome).' - '.$encontrista->mae_contato,
+                'PAI'           => mb_strtoupper($encontrista->pai_nome, 'UTF-8').' - '.$encontrista->pai_contato,
+                'MÃE'           => mb_strtoupper($encontrista->mae_nome, 'UTF-8').' - '.$encontrista->mae_contato,
                 'PAIS CASADOS?' => $simNao[$encontrista->pais_casados],
                 'RUA/NR'        => $encontrista->endereco_rua.' - '.$encontrista->endereco_numero,
                 'BAIRRO'        => $encontrista->endereco_bairro,

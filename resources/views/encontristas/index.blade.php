@@ -25,20 +25,18 @@
             <x-table>
                 <x-slot name="thead">                   
                     <tr>
-                        <th style="width: 25%">NOME</th>
-                        <th style="width: 10%">DATA NASC</th>                    
-                        <th style="width: 10%">CPF</th>                    
+                        <th style="width: 30%">NOME</th>
+                        <th style="width: 10%">DATA NASC</th>
                         <th style="width: 5%">GENERO</th>
-                        <th style="width: 23%">MÃE</th>                                             
-                        <th style="width: 23%">PAI</th>                                             
-                        <th style="width: 4%">AÇÕES</th>
+                        <th style="width: 25%">MÃE</th>                                             
+                        <th style="width: 25%">PAI</th>                                             
+                        <th style="width: 5%">AÇÕES</th>
                     </tr>                
                 </x-slot> 
                 @foreach($encontristas as $encontrista)                        
                 <tr>
                     <td>{{ $encontrista->nome }}</td>                         
-                    <td>{{ formatDate($encontrista->data_nasc) }}</td>
-                    <td>{{ $encontrista->cpf }}</td>
+                    <td>{{ formatDate($encontrista->data_nasc) }}</td>                    
                     <td>{{ $generos[$encontrista->genero] }}</td>
                     <td>{{ $encontrista->mae_nome }}</td> 
                     <td>{{ $encontrista->pai_nome }}</td>                                     
