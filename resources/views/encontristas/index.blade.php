@@ -42,7 +42,8 @@
                     <td>{{ $encontrista->pai_nome }}</td>                                     
 
                     <td class="py-1">
-                        <x-dropdown-acao           
+                        <x-dropdown-acao        
+                            :item-id="$encontrista->id"   
                             :ficha-route="route('encontristas.ficha', $encontrista)"                                         
                             :edit-route="route('encontristas.edit', $encontrista)"
                             :delete-route="route('encontristas.destroy', $encontrista)" >

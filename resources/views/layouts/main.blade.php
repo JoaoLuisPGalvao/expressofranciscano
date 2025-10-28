@@ -77,14 +77,23 @@
                                     </nav>
                                 </div>
                             @endcan
+
                             <a class="nav-link py-2" href="{{ route('home.index') }}">
                                 <div class="sb-nav-link-icon"><i class="bi bi-house fs-5"></i> </div>
                                 Home
                             </a>
-                            <a class="nav-link py-2" href="{{ route('encontristas.index') }}">
-                                <div class="sb-nav-link-icon"><i class="bi bi-person-raised-hand fs-5"></i> </div>
+                            
+                            <a class="nav-link collapsed py-2" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEncontristas" aria-expanded="false" aria-controls="collapseEncontristas">
+                                <div class="sb-nav-link-icon"><i class="bi bi-person-raised-hand fs-5"></i></div>
                                 Encontristas
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
+                            <div class="collapse" id="collapseEncontristas" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link py-1" href="{{ route('encontristas.index') }}">- Cadastro</a>                                            
+                                </nav>
+                            </div>
+                            
                             @if(auth()->user()->can('administrador') || auth()->user()->can('maquinista'))
                                 <a class="nav-link py-2" href="{{ route('users.index') }}">
                                     <div class="sb-nav-link-icon"><i class="bi bi-person-circle fs-5"></i> </div>

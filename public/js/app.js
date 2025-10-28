@@ -59,34 +59,45 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //Função para buscar o cep e carregar no formulario
-document.getElementById('endereco_cep').addEventListener('blur', async function() {
-    let cep = this.value.replace(/\D/g, '');
+document.addEventListener('DOMContentLoaded', () => {
+    const cepInput = document.getElementById('endereco_cep');
+    if (!cepInput) return; // Sai se o input não existir
 
-    if (cep.length !== 8) {
-        alert('CEP inválido!');
-        return;
-    }
-
-    document.getElementById('endereco_rua').value = 'Carregando...';
-
-    try {
-        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-        const data = await response.json();
-
-        if (data.erro) {
-            alert('CEP não encontrado!');
-            document.getElementById('endereco_rua').value = '';
+    cepInput.addEventListener('blur', async function() {
+        let cep = this.value.replace(/\D/g, '');
+        if (cep.length !== 8) {
+            alert('CEP inválido!');
             return;
         }
 
-        document.getElementById('endereco_rua').value = data.logradouro;
-        document.getElementById('endereco_bairro').value = data.bairro;
-        document.getElementById('endereco_cidade').value = data.localidade;
-        document.getElementById('endereco_estado').value = data.uf;
-    } catch (error) {
-        alert('Erro ao buscar o endereço. Tente novamente.');
-        document.getElementById('endereco_rua').value = '';
-    }
+        const ruaInput = document.getElementById('endereco_rua');
+        const bairroInput = document.getElementById('endereco_bairro');
+        const cidadeInput = document.getElementById('endereco_cidade');
+        const estadoInput = document.getElementById('endereco_estado');
+
+        if (ruaInput) ruaInput.value = 'Carregando...';
+
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
+
+            if (data.erro) {
+                alert('CEP não encontrado!');
+                if (ruaInput) ruaInput.value = '';
+                return;
+            }
+
+            if (ruaInput) ruaInput.value = data.logradouro.toUpperCase();
+            if (bairroInput) bairroInput.value = data.bairro.toUpperCase();
+            if (cidadeInput) cidadeInput.value = data.localidade.toUpperCase();
+            if (estadoInput) estadoInput.value = data.uf.toUpperCase();
+
+        } catch (error) {
+            alert('Erro ao buscar o endereço. Tente novamente.');
+            if (ruaInput) ruaInput.value = '';
+            console.error(error);
+        }
+    });
 });
 
 //Função para habilitar e desabilitar a linha de informações do formulário do econtrista
@@ -95,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Função genérica para habilitar/desabilitar campos
     function configurarToggle(selectId, campos) {
         const select = document.getElementById(selectId);
+        if (!select) return; // sai se o select não existir
 
         function toggleCampos() {
             const habilitar = select.value === '1';

@@ -16,7 +16,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
-
 class EncontristasController extends Controller
 {
     public function index(){
@@ -239,8 +238,13 @@ class EncontristasController extends Controller
 
     public function gerarCsv(){
 
-        $generos = Generos::generos();
-        $simNao  = SimNao::lista();
+        $generos        = Generos::generos();
+        $simNao         = SimNao::lista();   
+        $irmaos         = Irmaos::lista();
+        $series         = Series::lista();
+        $turnos         = Turnos::lista();
+        $contatos       = Contatos::lista();
+        $transportes    = Transportes::lista(); 
         $request = request();
         $ano     = $request->input('ano', Carbon::now()->format('Y'));     
 
@@ -255,21 +259,40 @@ class EncontristasController extends Controller
         $topo = ['Relação de Encontristas - '.$ano, '', '', '', '','', '', '', '', ''];
         fputcsv($arquivoAberto, $topo, ';');        
         
-        $cabecalho = ['NOME', 'CPF', 'DATA NASC', 'GENERO', 'PAI', 'MÃE', 'PAIS CASADOS?', 'RUA/NR', 'BAIRRO', 'CIDADE/ESTADO'];
+        $cabecalho = ['NOME','DATA NASC','GÊNERO','ENDEREÇO','ESTUDA?','ESCOLA/SÉRIE/TURNO','TEM IRMÃOS?','PAIS CASADOS?','PAI/CONTATO','MÃE/CONTATO','OUTRO RESPONSÁVEL/CONTATO','CONTATO PRINCIPAL','POSSUI TRANSPORTE?','MORA COM?','ALGUM FAMILIAR PARTICIPA DA IGREJA?/QUEM/GRUPO','TEM PARENTE INSCRITO?/SE SIM, QUEM?','FAZ USO DE MEDICAMENTO?','FAZ TRATAMENTO SAÚDE?','TEM RESTRIÇÃO ALIMENTAR?','TEM ALERGIA?','ESTA DENTRO DO ESPECTRO AUTISTA?'];
+
         fputcsv($arquivoAberto, $cabecalho, ';');
 
         foreach($encontristas as $encontrista){
             $encontristaArray = [
-                'NOME'          => mb_strtoupper($encontrista->nome, 'UTF-8'),
-                'CPF'           => $encontrista->cpf,
-                'DATA NASC'     => $encontrista->data_nasc,
-                'GENERO'        => $generos[$encontrista->genero],
-                'PAI'           => mb_strtoupper($encontrista->pai_nome, 'UTF-8').' - '.$encontrista->pai_contato,
-                'MÃE'           => mb_strtoupper($encontrista->mae_nome, 'UTF-8').' - '.$encontrista->mae_contato,
-                'PAIS CASADOS?' => $simNao[$encontrista->pais_casados],
-                'RUA/NR'        => $encontrista->endereco_rua.' - '.$encontrista->endereco_numero,
-                'BAIRRO'        => $encontrista->endereco_bairro,
-                'CIDADE/ESTADO' => $encontrista->endereco_cidade.'/'.$encontrista->endereco_estado,
+                'NOME' => $encontrista->nome,
+                'DATA NASC' => $encontrista->data_nasc,
+                'GÊNERO' => $generos[$encontrista->genero] ?? '',
+                'ENDEREÇO' => $encontrista->endereco_rua . ', Nr ' . $encontrista->endereco_numero . ' - ' . $encontrista->endereco_bairro . ', ' . $encontrista->endereco_cidade . '/' . $encontrista->endereco_estado . ' - ' . $encontrista->endereco_complemento . ' - ' . $encontrista->endereco_cep,
+                'ESTUDA?' => $simNao[$encontrista->estuda] ?? '',
+                'ESCOLA/SÉRIE/TURNO' => ($encontrista->escola ? $encontrista->escola . ' - ' . $series[$encontrista->serie] . ' - ' . $turnos[$encontrista->turno] : ''),
+                'TEM IRMÃOS?' => $irmaos[$encontrista->tem_irmaos] ?? '',
+                'PAIS CASADOS?' => $simNao[$encontrista->pais_casados] ?? '',
+                'PAI/CONTATO' => $encontrista->pai_nome . ' - ' . $encontrista->pai_contato,
+                'MÃE/CONTATO' => $encontrista->mae_nome . ' - ' . $encontrista->mae_contato,
+                'OUTRO RESP/CONTATO' => ($encontrista->outro_responsavel_nome ? $encontrista->outro_responsavel_nome . ' - ' . $encontrista->outro_responsavel_parentesco . ' - ' . $encontrista->outro_responsavel_contato : ''),
+                'CONTATO PRINCIPAL' => $contatos[$encontrista->contato_principal],
+                'POSSUI TRANSPORTE?' => $transportes[$encontrista->possui_transporte] ?? '',
+                'MORA COM?' => $encontrista->mora_com,
+                'ALGUM FAMILIAR PARTICIPA DA IGREJA?/QUEM/GRUPO' => ($simNao[$encontrista->familiar_participa] ?? '') .
+                    ($encontrista->familiar_quem ? ', ' . $encontrista->familiar_quem . ' - ' . $encontrista->familiar_grupo : ''),
+                'TEM PARENTE INSCRITO?/SE SIM, QUEM?' => ($simNao[$encontrista->tem_parente_inscrito] ?? '') . 
+                    ($encontrista->parente_inscrito_nome ? ', ' . $encontrista->parente_inscrito_nome : ''),
+                'FAZ USO DE MEDICAMENTO?' => ($simNao[$encontrista->uso_medicamento] ?? '') . 
+                    ($encontrista->uso_medicamento_descricao ? ', ' . $encontrista->uso_medicamento_descricao : ''),
+                'FAZ TRATAMENTO SAÚDE?' => ($simNao[$encontrista->tratamento_saude] ?? '') . 
+                    ($encontrista->tratamento_saude_descricao ? ', ' . $encontrista->tratamento_saude_descricao : ''),
+                'TEM RESTRIÇÃO ALIMENTAR?' => ($simNao[$encontrista->restricao_alimentar] ?? '') .  
+                    ($encontrista->restricao_alimentar_descricao ? ', ' . $encontrista->restricao_alimentar_descricao : ''),
+                'TEM ALERGIA?' => ($simNao[$encontrista->alergia] ?? '') . 
+                    ($encontrista->alergia_descricao ? ', ' . $encontrista->alergia_descricao : ''),
+                'ESTA DENTRO DO ESPECTRO AUTISTA?' => ($simNao[$encontrista->espectro_autista] ?? '') . 
+                    ($encontrista->espectro_autista_descricao ? ', ' . $encontrista->espectro_autista_descricao : ''),
             ];
             
             fputcsv($arquivoAberto, $encontristaArray, ';');

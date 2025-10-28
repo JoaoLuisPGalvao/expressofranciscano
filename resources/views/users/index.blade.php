@@ -38,7 +38,8 @@
                     <td>{{ $equipes[$user->equipe] }}</td>
                     <td><span class="badge text-bg-{{ $user->status == 1 ? 'success' : 'danger' }}">{{ $ativoInativo[$user->status] }}</span> </td>                    
                     <td class="py-1">
-                        <x-dropdown-acao                                                    
+                        <x-dropdown-acao   
+                            :item-id="$user->id"                                                    
                             :edit-route="route('users.edit', $user)"
                             :delete-route="route('users.destroy', $user)" >
                         </x-dropdown-acao>

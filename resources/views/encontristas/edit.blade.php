@@ -7,7 +7,7 @@
 <form action="{{ route('encontristas.update', ['encontrista' => $encontrista]) }}" method="POST" enctype="multipart/form-data">
 @csrf
 @method('PUT')
-   <x-card size="col-12 col-lg-11 col-xxl-8">
+   <x-card size="col-12 col-md-11 col-xl-10 col-xxl-9">
       <x-slot name="header">
          <div class="d-flex justify-content-between align-items-center">
             <h4 class="mb-0 fw-bold">Editando: {{ Str::limit($encontrista->nome, 30) }}</h4>
@@ -252,7 +252,7 @@
                         @endforeach
                      </select>
                      <label for="familiar_participa">
-                        * Algum familiar participa de movimentos da igreja católica?
+                        * Algum familiar participa de movimentos da igreja ?
                      </label>
                </div>
             </div>
@@ -281,7 +281,7 @@
                      @endforeach
                   </select>
                   <label for="tem_parente_inscrito">
-                     * Algum irmão ou primo também está fazendo a inscrição?
+                     * Algum parente também está fazendo a inscrição ?
                   </label>
                </div>
             </div>
