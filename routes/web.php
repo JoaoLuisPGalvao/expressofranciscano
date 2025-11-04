@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EncontristasController;
+use App\Http\Controllers\FraternidadesController;
 use Illuminate\Support\Facades\Route; 
 
 /*
@@ -54,4 +55,11 @@ Route::controller(EncontristasController::class)->prefix('encontristas')->name('
     Route::put('/{encontrista}', 'update')->name('update');
     Route::get('/gerarCsv', 'gerarCsv')->name('gerarCsv');
     Route::get('/gerarAllFichas', 'gerarAllFichas')->name('gerarAllFichas');
+});
+
+Route::controller(FraternidadesController::class)->prefix('fraternidades')->name('fraternidades.')->middleware('auth')->group(function(){
+    Route::get('/index', 'index')->name('index');    
+    Route::get('/edit/{encontrista}', 'edit')->name('edit');    
+    Route::put('/{encontrista}', 'update')->name('update');    
+    Route::get('/gerarPdf', 'gerarPdf')->name('gerarPdf');
 });

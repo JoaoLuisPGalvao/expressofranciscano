@@ -55,7 +55,8 @@ return new class extends Migration
             $table->string('alergia_descricao')->nullable();
             $table->integer('espectro_autista');
             $table->string('espectro_autista_descricao')->nullable();
-            $table->string('foto')->nullable();            
+            $table->string('foto')->nullable();          
+            $table->integer('fraternidade');  
             $table->timestamps();
             $table->softDeletes();
             $table->string('created_by_name')->nullable();

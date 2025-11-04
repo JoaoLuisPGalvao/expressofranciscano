@@ -90,7 +90,8 @@
                             </a>
                             <div class="collapse" id="collapseEncontristas" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link py-1" href="{{ route('encontristas.index') }}">- Cadastro</a>                                            
+                                    <a class="nav-link py-1" href="{{ route('encontristas.index') }}">- Cadastro</a> 
+                                    <a class="nav-link py-1" href="{{ route('fraternidades.index') }}">- Fraternidades</a>                                            
                                 </nav>
                             </div>
                             

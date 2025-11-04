@@ -9,6 +9,7 @@ use App\Enums\Series;
 use App\Enums\SimNao;
 use App\Enums\Transportes;
 use App\Enums\Turnos;
+use App\Enums\Fraternidades;
 use App\Http\Requests\EncontristaRequest;
 use App\Models\Encontrista;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -29,7 +30,7 @@ class EncontristasController extends Controller
         return view('encontristas.index', compact('encontristas', 'generos', 'ano'));
     }    
 
-    public function create(){
+    public function create(){       
 
         $generos        = Generos::generos();
         $simNao         = SimNao::lista();   
@@ -44,7 +45,7 @@ class EncontristasController extends Controller
     }
 
     public function store(EncontristaRequest $request){
-
+        
         $arquivoPath = null;
 
         if ($request->hasFile('foto')) {
@@ -60,6 +61,9 @@ class EncontristasController extends Controller
             // salva em storage/app/public/fotos/
             $arquivoPath = $file->storeAs($pasta, $nomeArquivo, 'public');
         }
+
+        //calcular a idade do jovem e incluir ele numa fraternidade
+        $fraternidade = calcularFraternidade($request->data_nasc);        
 
         Encontrista::create([     
             'nome'                          => mb_strtoupper($request->nome, 'UTF-8'),          
@@ -104,7 +108,8 @@ class EncontristasController extends Controller
             'alergia_descricao'             => mb_strtoupper($request->alergia_descricao, 'UTF-8'),
             'espectro_autista'              => $request->espectro_autista,
             'espectro_autista_descricao'    => mb_strtoupper($request->espectro_autista_descricao, 'UTF-8'),            
-            'foto'                          => $arquivoPath,                  
+            'foto'                          => $arquivoPath,           
+            'fraternidade'                  => $fraternidade,       
         ]);
         
         return redirect(route('encontristas.index'))->with('msg', 'Encontrista ' . mb_strtoupper($request->nome) . ' cadastrado com sucesso!');
@@ -245,8 +250,9 @@ class EncontristasController extends Controller
         $turnos         = Turnos::lista();
         $contatos       = Contatos::lista();
         $transportes    = Transportes::lista(); 
-        $request = request();
-        $ano     = $request->input('ano', Carbon::now()->format('Y'));     
+        $fraternidades  = Fraternidades::lista();
+        $request        = request();
+        $ano            = $request->input('ano', Carbon::now()->format('Y'));     
 
         $encontristas = Encontrista::where('ano_expresso', $ano)->get();          
         
@@ -259,7 +265,7 @@ class EncontristasController extends Controller
         $topo = ['Relação de Encontristas - '.$ano, '', '', '', '','', '', '', '', ''];
         fputcsv($arquivoAberto, $topo, ';');        
         
-        $cabecalho = ['NOME','DATA NASC','GÊNERO','ENDEREÇO','ESTUDA?','ESCOLA/SÉRIE/TURNO','TEM IRMÃOS?','PAIS CASADOS?','PAI/CONTATO','MÃE/CONTATO','OUTRO RESPONSÁVEL/CONTATO','CONTATO PRINCIPAL','POSSUI TRANSPORTE?','MORA COM?','ALGUM FAMILIAR PARTICIPA DA IGREJA?/QUEM/GRUPO','TEM PARENTE INSCRITO?/SE SIM, QUEM?','FAZ USO DE MEDICAMENTO?','FAZ TRATAMENTO SAÚDE?','TEM RESTRIÇÃO ALIMENTAR?','TEM ALERGIA?','ESTA DENTRO DO ESPECTRO AUTISTA?'];
+        $cabecalho = ['NOME','DATA NASC','GÊNERO','ENDEREÇO','ESTUDA?','ESCOLA/SÉRIE/TURNO','TEM IRMÃOS?','PAIS CASADOS?','PAI/CONTATO','MÃE/CONTATO','OUTRO RESPONSÁVEL/CONTATO','CONTATO PRINCIPAL','POSSUI TRANSPORTE?','MORA COM?','ALGUM FAMILIAR PARTICIPA DA IGREJA?/QUEM/GRUPO','TEM PARENTE INSCRITO?/SE SIM, QUEM?','FAZ USO DE MEDICAMENTO?','FAZ TRATAMENTO SAÚDE?','TEM RESTRIÇÃO ALIMENTAR?','TEM ALERGIA?','ESTA DENTRO DO ESPECTRO AUTISTA?', 'FRATERNIDADE'];
 
         fputcsv($arquivoAberto, $cabecalho, ';');
 
@@ -293,6 +299,7 @@ class EncontristasController extends Controller
                     ($encontrista->alergia_descricao ? ', ' . $encontrista->alergia_descricao : ''),
                 'ESTA DENTRO DO ESPECTRO AUTISTA?' => ($simNao[$encontrista->espectro_autista] ?? '') . 
                     ($encontrista->espectro_autista_descricao ? ', ' . $encontrista->espectro_autista_descricao : ''),
+                'FRATERNIDADE' => ($fraternidades[$encontrista->fraternidade] ?? ''),
             ];
             
             fputcsv($arquivoAberto, $encontristaArray, ';');

@@ -62,7 +62,7 @@ class Encontrista extends Authenticatable
         'espectro_autista',
         'espectro_autista_descricao',
         'foto',
-        'status',            
+        'fraternidade',            
         'created_by_name',
         'updated_by_name',
         'deleted_by_name',
@@ -129,7 +129,7 @@ class Encontrista extends Authenticatable
             'restricao_alimentar'   => 'int',            
             'alergia'               => 'int',            
             'espectro_autista'      => 'int',   
-            'status'                => 'int',
+            'fraternidade'          => 'int',
     ];
 
     public function createdByName(){
