@@ -41,6 +41,6 @@ class HomeController extends Controller
             $contagemFraternidade[$label] = $porFraternidade[$key] ?? 0;
         }               
 
-        return view('home.index', compact('contagemGenero', 'contagemFraternidade'));
+        return view('home.index', compact('ano', 'contagemGenero', 'contagemFraternidade'));
     }
 }
