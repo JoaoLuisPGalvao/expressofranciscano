@@ -29,7 +29,9 @@ Route::controller(AdolecentesController::class)->prefix('adolecentes')->name('ad
     Route::get('/edit/{adolecente}', 'edit')->name('edit');    
     Route::delete('/{adolecente}', 'destroy')->name('destroy')->middleware('can:excluir-registro');  
     Route::put('/{adolecente}', 'update')->name('update');
-    Route::get('/gerarCsv', 'gerarCsv')->name('gerarCsv');    
+    Route::get('/gerarCsv', 'gerarCsv')->name('gerarCsv');  
+    Route::get('/ficha/{adolecente}', 'ficha')->name('ficha');  
+    Route::get('/{adolecente}', 'aprovar')->name('aprovar');  
 });
 
 Route::get('/', [Controller::class, 'index']);

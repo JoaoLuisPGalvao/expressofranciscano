@@ -37,7 +37,7 @@ function formatDate($value){
 
 // Função para formatar valores em data e hora
 function formatDateTime($value){
-    return Carbon::parse($value)->format('d/m/Y \à\s H:i');
+    return Carbon::parse($value)->format('d/m/Y \à\s H:i:s');
 }
 
 //Função para calcular a idade do jovem em meses e alocar em uma fraternidade

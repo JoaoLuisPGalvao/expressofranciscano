@@ -96,7 +96,7 @@
                 </tr>
                 <tr>                
                     <td style="width: 10%; font-weight: bold;">Série:</td>
-                    <td style="width: 25%;">{{ $series[$encontrista->serie] }}</td>
+                    <td style="width: 25%;">{{ $series[$encontrista->serie] ?? '' }}</td>
                     <td style="width: 10%; font-weight: bold;">Turno:</td>
                     <td style="width: 55%;">{{ $turnos[$encontrista->turno] ?? '' }}</td> 
                 </tr>            

@@ -12,6 +12,8 @@ use App\Enums\Turnos;
 use App\Enums\StatusInscricao;
 use App\Http\Requests\EncontristaRequest;
 use App\Models\Adolecente;
+use App\Models\Encontrista;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -226,6 +228,30 @@ class AdolecentesController extends Controller
         return redirect(route('adolecentes.index'))->with('msg', 'Registro excluído com sucesso!');
     }
 
+    public function ficha(Adolecente $adolecente){    
+
+        //Atualiza o status para visualizado
+        if($adolecente->status == StatusInscricao::PENDENTE){
+            $adolecente->fill([
+                'status' => 2,
+            ]);
+
+            $adolecente->save();
+        }     
+        
+        $generos        = Generos::generos();
+        $simNao         = SimNao::lista();   
+        $irmaos         = Irmaos::lista();
+        $series         = Series::lista();
+        $turnos         = Turnos::lista();
+        $contatos       = Contatos::lista();
+        $transportes    = Transportes::lista();   
+
+        $pdf = Pdf::loadView('adolecentes.ficha', compact('adolecente', 'generos', 'simNao', 'irmaos', 'series', 'turnos', 'contatos', 'transportes'))->setPaper('a4', 'portrait');
+
+        return response($pdf->output())->header('Content-Type', 'application/pdf');
+    }
+
     public function gerarCsv(){
 
         $generos        = Generos::generos();
@@ -235,10 +261,18 @@ class AdolecentesController extends Controller
         $turnos         = Turnos::lista();
         $contatos       = Contatos::lista();
         $transportes    = Transportes::lista();
+        $listaStatus    = StatusInscricao::lista();    
         $request        = request();
         $ano            = $request->input('ano', Carbon::now()->format('Y'));     
+        $status         = $request->input('status'); 
 
-        $adolecentes = Adolecente::where('ano_expresso', $ano)->get();          
+        $query = Adolecente::where('ano_expresso', $ano);
+
+        if($status){
+            $query->where('status', $status);
+        }
+
+        $adolecentes = $query->get(); 
         
         $csvNomeArquivo = tempnam(sys_get_temp_dir(), 'csv_' . Str::uuid());       
         $arquivoAberto  = fopen($csvNomeArquivo, 'w');
@@ -249,7 +283,7 @@ class AdolecentesController extends Controller
         $topo = ['Relação de Inscrições - '.$ano, '', '', '', '','', '', '', '', ''];
         fputcsv($arquivoAberto, $topo, ';');        
         
-        $cabecalho = ['NOME','DATA NASC','GÊNERO','ENDEREÇO','ESTUDA?','ESCOLA/SÉRIE/TURNO','TEM IRMÃOS?','PAIS CASADOS?','PAI/CONTATO','MÃE/CONTATO','OUTRO RESPONSÁVEL/CONTATO','CONTATO PRINCIPAL','POSSUI TRANSPORTE?','MORA COM?','ALGUM FAMILIAR PARTICIPA DA IGREJA?/QUEM/GRUPO','TEM PARENTE INSCRITO?/SE SIM, QUEM?','FAZ USO DE MEDICAMENTO?','FAZ TRATAMENTO SAÚDE?','TEM RESTRIÇÃO ALIMENTAR?','TEM ALERGIA?','ESTA DENTRO DO ESPECTRO AUTISTA?'];
+        $cabecalho = ['NOME','DATA NASC','GÊNERO','ENDEREÇO','ESTUDA?','ESCOLA/SÉRIE/TURNO','TEM IRMÃOS?','PAIS CASADOS?','PAI/CONTATO','MÃE/CONTATO','OUTRO RESPONSÁVEL/CONTATO','CONTATO PRINCIPAL','POSSUI TRANSPORTE?','MORA COM?','ALGUM FAMILIAR PARTICIPA DA IGREJA?/QUEM/GRUPO','TEM PARENTE INSCRITO?/SE SIM, QUEM?','FAZ USO DE MEDICAMENTO?','FAZ TRATAMENTO SAÚDE?','TEM RESTRIÇÃO ALIMENTAR?','TEM ALERGIA?','ESTA DENTRO DO ESPECTRO AUTISTA?', 'STATUS'];
 
         fputcsv($arquivoAberto, $cabecalho, ';');
 
@@ -282,7 +316,8 @@ class AdolecentesController extends Controller
                 'TEM ALERGIA?' => ($simNao[$adolecente->alergia] ?? '') . 
                     ($adolecente->alergia_descricao ? ', ' . $adolecente->alergia_descricao : ''),
                 'ESTA DENTRO DO ESPECTRO AUTISTA?' => ($simNao[$adolecente->espectro_autista] ?? '') . 
-                    ($adolecente->espectro_autista_descricao ? ', ' . $adolecente->espectro_autista_descricao : ''),                
+                    ($adolecente->espectro_autista_descricao ? ', ' . $adolecente->espectro_autista_descricao : ''),   
+                'STATUS' => ($listaStatus[$adolecente->status] ?? ''),             
             ];
             
             fputcsv($arquivoAberto, $adolecenteArray, ';');
@@ -291,5 +326,67 @@ class AdolecentesController extends Controller
         fclose($arquivoAberto);
         
         return response()->download($csvNomeArquivo, 'Relacao_adolecentes.csv')->deleteFileAfterSend(true);
+    }
+
+    public function aprovar(Adolecente $adolecente){ 
+
+        //calcular a idade do jovem e incluir ele numa fraternidade
+        $fraternidade = calcularFraternidade($adolecente->data_nasc);        
+
+        Encontrista::create([     
+            'nome'                          => mb_strtoupper($adolecente->nome, 'UTF-8'),          
+            'data_nasc'                     => $adolecente->data_nasc,
+            'genero'                        => $adolecente->genero,
+            'ano_expresso'                  => $adolecente->ano_expresso,
+            'endereco_cep'                  => $adolecente->endereco_cep,
+            'endereco_rua'                  => mb_strtoupper($adolecente->endereco_rua, 'UTF-8'),
+            'endereco_numero'               => $adolecente->endereco_numero,
+            'endereco_bairro'               => mb_strtoupper($adolecente->endereco_bairro, 'UTF-8'),
+            'endereco_cidade'               => mb_strtoupper($adolecente->endereco_cidade, 'UTF-8'),
+            'endereco_estado'               => $adolecente->endereco_estado,
+            'endereco_complemento'          => mb_strtoupper($adolecente->endereco_complemento, 'UTF-8'),
+            'estuda'                        => $adolecente->estuda,
+            'escola'                        => mb_strtoupper($adolecente->escola, 'UTF-8'), 
+            'serie'                         => $adolecente->serie,
+            'turno'                         => $adolecente->turno,
+            'tem_irmaos'                    => $adolecente->tem_irmaos,
+            'pais_casados'                  => $adolecente->pais_casados,            
+            'pai_nome'                      => mb_strtoupper($adolecente->pai_nome, 'UTF-8'),
+            'pai_contato'                   => $adolecente->pai_contato,
+            'mae_nome'                      => mb_strtoupper($adolecente->mae_nome, 'UTF-8'),
+            'mae_contato'                   => $adolecente->mae_contato,
+            'outro_responsavel_nome'        => mb_strtoupper($adolecente->outro_responsavel_nome, 'UTF-8'),
+            'outro_responsavel_contato'     => $adolecente->outro_responsavel_contato,
+            'outro_responsavel_parentesco'  => mb_strtoupper($adolecente->outro_responsavel_parentesco, 'UTF-8'),
+            'contato_principal'             => $adolecente->contato_principal,
+            'possui_transporte'             => $adolecente->possui_transporte,
+            'mora_com'                      => mb_strtoupper($adolecente->mora_com, 'UTF-8'),
+            'familiar_participa'            => $adolecente->familiar_participa,
+            'familiar_quem'                 => mb_strtoupper($adolecente->familiar_quem, 'UTF-8'),
+            'familiar_grupo'                => mb_strtoupper($adolecente->familiar_grupo, 'UTF-8'),
+            'tem_parente_inscrito'          => $adolecente->tem_parente_inscrito,
+            'parente_inscrito_nome'         => mb_strtoupper($adolecente->parente_inscrito_nome, 'UTF-8'),
+            'uso_medicamento'               => $adolecente->uso_medicamento,
+            'uso_medicamento_descricao'     => mb_strtoupper($adolecente->uso_medicamento_descricao, 'UTF-8'),
+            'tratamento_saude'              => $adolecente->tratamento_saude,
+            'tratamento_saude_descricao'    => mb_strtoupper($adolecente->tratamento_saude_descricao, 'UTF-8'),
+            'restricao_alimentar'           => $adolecente->restricao_alimentar,
+            'restricao_alimentar_descricao' => mb_strtoupper($adolecente->restricao_alimentar_descricao, 'UTF-8'),
+            'alergia'                       => $adolecente->alergia,
+            'alergia_descricao'             => mb_strtoupper($adolecente->alergia_descricao, 'UTF-8'),
+            'espectro_autista'              => $adolecente->espectro_autista,
+            'espectro_autista_descricao'    => mb_strtoupper($adolecente->espectro_autista_descricao, 'UTF-8'),            
+            'foto'                          => $adolecente->foto,           
+            'fraternidade'                  => $fraternidade,       
+        ]);
+
+        //Atualiza o status para visualizado
+        $adolecente->fill([
+            'status' => 3,
+        ]);
+
+        $adolecente->save();
+        
+        return redirect(route('adolecentes.index'))->with('msg', 'A inscrição de ' . mb_strtoupper($adolecente->nome) . ' foi aprovada!');
     }
 }
