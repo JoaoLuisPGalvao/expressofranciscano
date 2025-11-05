@@ -51,7 +51,7 @@
 
                     <td class="py-1">
                         <div class="d-flex align-items-center gap-2">
-                            <x-btn-a-generico href="{{ route('adolecentes.aprovar', $adolecente) }}" icone="fas fa-thumbs-up" classe="btn-outline-success btn-sm {{ $adolecente->status == \App\Enums\StatusInscricao::APROVADO ? 'disabled' : '' }}" title="Aprovar inscrição"></x-btn-a-generico>
+                            <x-btn-a-generico href="{{ route('adolecentes.aprovar', $adolecente) }}" icone="fas fa-thumbs-up" classe="btn-outline-success btn-sm {{ $adolecente->status == \App\Enums\StatusInscricao::VISUALIZADO ? '' : 'disabled' }}" title="Aprovar inscrição"></x-btn-a-generico>
                             <x-dropdown-acao        
                                 :item-id="$adolecente->id" 
                                 :ficha-route="route('adolecentes.ficha', $adolecente)"         
