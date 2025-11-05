@@ -82,6 +82,20 @@
                                 <div class="sb-nav-link-icon"><i class="bi bi-house fs-5"></i> </div>
                                 Home
                             </a>
+
+                            <a class="nav-link collapsed py-2" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdolecentes" aria-expanded="false" aria-controls="collapseAdolecentes">
+                                <div class="sb-nav-link-icon"><i class="bi bi-person-lines-fill fs-5"></i></div>
+                                Adolecentes
+                                @if($pendentesCount > 0)
+                                    <span class="badge text-bg-danger ms-2">{{ $pendentesCount }}</span>                                               
+                                @endif
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseAdolecentes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link py-1" href="{{ route('adolecentes.index') }}">- Inscrições</a>
+                                </nav>
+                            </div>
                             
                             <a class="nav-link collapsed py-2" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEncontristas" aria-expanded="false" aria-controls="collapseEncontristas">
                                 <div class="sb-nav-link-icon"><i class="bi bi-person-raised-hand fs-5"></i></div>

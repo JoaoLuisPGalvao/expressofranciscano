@@ -7,6 +7,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EncontristasController;
 use App\Http\Controllers\FraternidadesController;
+use App\Http\Controllers\AdolecentesController;
 use Illuminate\Support\Facades\Route; 
 
 /*
@@ -19,6 +20,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/inscricao', [AdolecentesController::class, 'inscricao'])->name('adolecentes.inscricao');
+Route::post('/inscricao', [AdolecentesController::class, 'store'])->name('adolecentes.store');
+
+Route::controller(AdolecentesController::class)->prefix('adolecentes')->name('adolecentes.')->middleware('auth')->group(function(){
+    Route::get('/index', 'index')->name('index');    
+    Route::get('/edit/{adolecente}', 'edit')->name('edit');    
+    Route::delete('/{adolecente}', 'destroy')->name('destroy')->middleware('can:excluir-registro');  
+    Route::put('/{adolecente}', 'update')->name('update');
+    Route::get('/gerarCsv', 'gerarCsv')->name('gerarCsv');    
+});
 
 Route::get('/', [Controller::class, 'index']);
 
