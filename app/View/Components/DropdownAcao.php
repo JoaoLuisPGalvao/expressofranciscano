@@ -14,8 +14,9 @@ class DropdownAcao extends Component
     public $emailDisabled;
     public $editRoute;
     public $deleteRoute;
+    public $fichaLabel;
 
-    public function __construct($itemId = null, $fichaRoute = null, $emailRoute = null, $emailDisabled = false, $editRoute = null, $deleteRoute = null) {
+    public function __construct($itemId = null, $fichaRoute = null, $emailRoute = null, $emailDisabled = false, $editRoute = null, $deleteRoute = null, $fichaLabel = null) {
 
         $this->itemId           = $itemId;
         $this->fichaRoute       = $fichaRoute;
@@ -23,6 +24,7 @@ class DropdownAcao extends Component
         $this->emailDisabled    = $emailDisabled;
         $this->editRoute        = $editRoute;
         $this->deleteRoute      = $deleteRoute;
+        $this->fichaLabel       = $fichaLabel;
     }
 
     /**

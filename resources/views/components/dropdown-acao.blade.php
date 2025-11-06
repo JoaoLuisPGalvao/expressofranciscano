@@ -7,7 +7,7 @@
         @if($fichaRoute)
             <li>
                 <a id="btnFicha{{ $itemId }}" class="dropdown-item" href="{{ $fichaRoute }}" target="_blank">
-                    <i class="far fa-file-pdf text-danger me-2"></i>Ficha cadastral
+                    <i class="far fa-file-pdf text-danger me-2"></i>{{ $fichaLabel }}
                 </a>
             </li>
         @endif

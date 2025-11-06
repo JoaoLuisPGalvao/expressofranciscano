@@ -54,7 +54,7 @@
                             <x-btn-a-generico href="{{ route('adolecentes.aprovar', $adolecente) }}" icone="fas fa-thumbs-up" classe="btn-outline-success btn-sm {{ $adolecente->status == \App\Enums\StatusInscricao::VISUALIZADO ? '' : 'disabled' }}" title="Aprovar inscrição"></x-btn-a-generico>
                             <x-dropdown-acao        
                                 :item-id="$adolecente->id" 
-                                :ficha-route="route('adolecentes.ficha', $adolecente)"         
+                                :ficha-route="route('adolecentes.ficha', $adolecente)" ficha-label="Ficha de inscrição"        
                                 :edit-route="route('adolecentes.edit', $adolecente)"
                                 :delete-route="route('adolecentes.destroy', $adolecente)" >
                             </x-dropdown-acao>

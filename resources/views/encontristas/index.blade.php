@@ -44,7 +44,7 @@
                     <td class="py-1">
                         <x-dropdown-acao        
                             :item-id="$encontrista->id"   
-                            :ficha-route="route('encontristas.ficha', $encontrista)"                                         
+                            :ficha-route="route('encontristas.ficha', $encontrista)" ficha-label="Ficha cadastral"                                        
                             :edit-route="route('encontristas.edit', $encontrista)"
                             :delete-route="route('encontristas.destroy', $encontrista)" >
                         </x-dropdown-acao>
