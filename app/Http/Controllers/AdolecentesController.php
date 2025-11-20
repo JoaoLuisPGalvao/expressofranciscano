@@ -67,13 +67,13 @@ class AdolecentesController extends Controller
 
             $file = $request->file('foto');
 
-            // Pasta onde será salva (em storage/app/public/fotos/)
-            $pasta = 'fotos';
+            // Pasta onde será salva (em storage/app/public/fotos/adolecentes)
+            $pasta = 'fotos/adolecentes';
 
             // Nome do arquivo com slug + timestamp + extensão correta
             $nomeArquivo = strtolower(Str::slug($request->nome)) . '.' . $file->getClientOriginalExtension();
 
-            // salva em storage/app/public/fotos/
+            // salva em storage/app/public/fotos/adolecentes
             $arquivoPath = $file->storeAs($pasta, $nomeArquivo, 'public');
         }          
 
@@ -155,8 +155,8 @@ class AdolecentesController extends Controller
 
             $file = $request->file('foto');
 
-            // Pasta onde será salva (em storage/app/public/fotos/)
-            $pasta = 'fotos';
+            // Pasta onde será salva (em storage/app/public/fotos/adolecentes)
+            $pasta = 'fotos/adolecentes';
 
             // Nome do arquivo com slug + timestamp + extensão correta
             $nomeArquivo = strtolower(Str::slug($request->nome)) . '.' . $file->getClientOriginalExtension();
@@ -166,7 +166,7 @@ class AdolecentesController extends Controller
                 Storage::disk('public')->delete($adolecente->foto);
             }
 
-            // salva em storage/app/public/fotos/
+            // salva em storage/app/public/fotos/adolecentes
             $arquivoPath = $file->storeAs($pasta, $nomeArquivo, 'public');
             $adolecente->foto = $arquivoPath; // atualiza o campo da foto
         }

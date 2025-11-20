@@ -43,11 +43,11 @@ class EncontristaRequest extends FormRequest
 
             // Responsáveis
             'pai_nome'                       => 'nullable|string|max:255',
-            'pai_contato'                    => 'nullable|string|max:30',
+            'pai_contato'                    => 'nullable|string|max:35',
             'mae_nome'                       => 'required|string|max:255',
-            'mae_contato'                    => 'required|string|max:30',
+            'mae_contato'                    => 'required|string|max:35',
             'outro_responsavel_nome'         => 'nullable|string|max:255',
-            'outro_responsavel_contato'      => 'nullable|string|max:30',
+            'outro_responsavel_contato'      => 'nullable|string|max:35',
             'outro_responsavel_parentesco'   => 'nullable|string|max:50',
             'contato_principal'              => 'required|integer',
             'possui_transporte'              => 'required|integer',

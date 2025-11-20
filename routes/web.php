@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EncontristasController;
 use App\Http\Controllers\FraternidadesController;
 use App\Http\Controllers\AdolecentesController;
+use App\Http\Controllers\AdultosController;
 use Illuminate\Support\Facades\Route; 
 
 /*
@@ -32,6 +33,19 @@ Route::controller(AdolecentesController::class)->prefix('adolecentes')->name('ad
     Route::get('/gerarCsv', 'gerarCsv')->name('gerarCsv');  
     Route::get('/ficha/{adolecente}', 'ficha')->name('ficha');  
     Route::get('/{adolecente}', 'aprovar')->name('aprovar');  
+});
+
+Route::get('/inscricao-adultos', [AdultosController::class, 'inscricao'])->name('adultos.inscricao');
+Route::post('/inscricao-adultos', [AdultosController::class, 'store'])->name('adultos.store');
+
+Route::controller(AdultosController::class)->prefix('adultos')->name('adultos.')->middleware('auth')->group(function(){
+    Route::get('/index', 'index')->name('index');    
+    Route::get('/edit/{adulto}', 'edit')->name('edit');    
+    Route::delete('/{adulto}', 'destroy')->name('destroy')->middleware('can:excluir-registro');  
+    Route::put('/{adulto}', 'update')->name('update');
+    Route::get('/gerarCsv', 'gerarCsv')->name('gerarCsv');  
+    Route::get('/ficha/{adulto}', 'ficha')->name('ficha');  
+    Route::get('/{adulto}', 'aprovar')->name('aprovar');  
 });
 
 Route::get('/', [Controller::class, 'index']);

@@ -100,16 +100,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-//Função para habilitar e desabilitar a linha de informações do formulário do econtrista
+//Função para habilitar e desabilitar a linha de informações do formulário
 document.addEventListener('DOMContentLoaded', function () {
 
     // Função genérica para habilitar/desabilitar campos
-    function configurarToggle(selectId, campos) {
+    function configurarToggle(selectId, campos, valorParaHabilitar = '1') {
         const select = document.getElementById(selectId);
         if (!select) return; // sai se o select não existir
 
         function toggleCampos() {
-            const habilitar = select.value === '1';
+            const habilitar = select.value === valorParaHabilitar;
 
             campos.forEach(id => {
                 const campo = document.getElementById(id);
@@ -131,12 +131,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Configurações específicas de cada seção
-    configurarToggle('estuda', ['escola', 'serie', 'turno']);
-    configurarToggle('familiar_participa', ['familiar_quem', 'familiar_grupo']);
-    configurarToggle('tem_parente_inscrito', ['parente_inscrito_nome']);
-    configurarToggle('uso_medicamento', ['uso_medicamento_descricao']);
-    configurarToggle('tratamento_saude', ['tratamento_saude_descricao']);
-    configurarToggle('restricao_alimentar', ['restricao_alimentar_descricao']);
-    configurarToggle('alergia', ['alergia_descricao']);
-    configurarToggle('espectro_autista', ['espectro_autista_descricao']);
+    configurarToggle('estuda', ['escola', 'serie', 'turno'], '1');
+    configurarToggle('familiar_participa', ['familiar_quem', 'familiar_grupo'], '1');
+    configurarToggle('tem_parente_inscrito', ['parente_inscrito_nome'], '1');
+    configurarToggle('uso_medicamento', ['uso_medicamento_descricao'], '1');
+    configurarToggle('tratamento_saude', ['tratamento_saude_descricao'], '1');
+    configurarToggle('restricao_alimentar', ['restricao_alimentar_descricao'], '1');
+    configurarToggle('alergia', ['alergia_descricao'], '1');
+    configurarToggle('espectro_autista', ['espectro_autista_descricao'], '1');
+    configurarToggle('participou_expresso', ['ano_participacao'], '1');
+    configurarToggle('serviu_expresso', ['experiencias_servico'], '1');
+    configurarToggle('participa_pastoral', ['qual_pastoral'], '1');
+    configurarToggle('frequenta_paroquia', ['qual_paroquia'], '2');
 });
+
+//Inicializar os tooltips
+const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+tooltipTriggerList.map(el => new bootstrap.Tooltip(el))
