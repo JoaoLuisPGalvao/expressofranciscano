@@ -26,7 +26,7 @@ class AdolecentesController extends Controller
         $listaStatus  = StatusInscricao::lista();    
         $request      = request();
         $ano          = $request->input('ano', Carbon::now()->format('Y'));   
-        $status       = $request->input('status');    
+        $status       = $request->input('status');        
         
         $statusClasses = [
             1 => 'text-bg-danger',   // Pendente
@@ -125,101 +125,7 @@ class AdolecentesController extends Controller
         ]);
         
         return redirect(route('adolecentes.inscricao'))->with('msg', 'Inscrição de  ' . mb_strtoupper($request->nome) . ' realizada com sucesso!');
-    }
-
-    public function edit(Adolecente $adolecente){
-
-        $generos        = Generos::generos();
-        $simNao         = SimNao::lista();   
-        $irmaos         = Irmaos::lista();
-        $series         = Series::lista();
-        $turnos         = Turnos::lista();
-        $contatos       = Contatos::lista();
-        $transportes    = Transportes::lista();
-        
-        //Atualiza o status para visualizado
-        if($adolecente->status == StatusInscricao::PENDENTE){
-            $adolecente->fill([
-                'status' => 2,
-            ]);
-
-            $adolecente->save();
-        }                
-
-        return view('adolecentes.edit', compact('adolecente', 'generos', 'simNao', 'irmaos', 'series', 'turnos', 'contatos', 'transportes')); 
-    }
-
-    public function update(Adolecente $adolecente, EncontristaRequest $request){
-
-        if ($request->hasFile('foto')) {
-
-            $file = $request->file('foto');
-
-            // Pasta onde será salva (em storage/app/public/fotos/adolecentes)
-            $pasta = 'fotos/adolecentes';
-
-            // Nome do arquivo com slug + timestamp + extensão correta
-            $nomeArquivo = strtolower(Str::slug($request->nome)) . '.' . $file->getClientOriginalExtension();
-
-            // Remove a foto antiga se existir
-            if ($adolecente->foto && Storage::disk('public')->exists($adolecente->foto)) {
-                Storage::disk('public')->delete($adolecente->foto);
-            }
-
-            // salva em storage/app/public/fotos/adolecentes
-            $arquivoPath = $file->storeAs($pasta, $nomeArquivo, 'public');
-            $adolecente->foto = $arquivoPath; // atualiza o campo da foto
-        }
-
-        $adolecente->fill([
-            'nome'                          => mb_strtoupper($request->nome, 'UTF-8'),                  
-            'data_nasc'                     => $request->data_nasc,
-            'genero'                        => $request->genero,
-            'ano_expresso'                  => $request->ano_expresso,
-            'endereco_cep'                  => $request->endereco_cep,
-            'endereco_rua'                  => mb_strtoupper($request->endereco_rua, 'UTF-8'),
-            'endereco_numero'               => $request->endereco_numero,
-            'endereco_bairro'               => mb_strtoupper($request->endereco_bairro, 'UTF-8'),
-            'endereco_cidade'               => mb_strtoupper($request->endereco_cidade, 'UTF-8'),
-            'endereco_estado'               => $request->endereco_estado,
-            'endereco_complemento'          => mb_strtoupper($request->endereco_complemento, 'UTF-8'),
-            'estuda'                        => $request->estuda,
-            'escola'                        => mb_strtoupper($request->escola, 'UTF-8'), 
-            'serie'                         => $request->serie,
-            'turno'                         => $request->turno,
-            'tem_irmaos'                    => $request->tem_irmaos,
-            'pais_casados'                  => $request->pais_casados,            
-            'pai_nome'                      => mb_strtoupper($request->pai_nome, 'UTF-8'),
-            'pai_contato'                   => $request->pai_contato,
-            'mae_nome'                      => mb_strtoupper($request->mae_nome, 'UTF-8'),
-            'mae_contato'                   => $request->mae_contato,
-            'outro_responsavel_nome'        => mb_strtoupper($request->outro_responsavel_nome, 'UTF-8'),
-            'outro_responsavel_contato'     => $request->outro_responsavel_contato,
-            'outro_responsavel_parentesco'  => mb_strtoupper($request->outro_responsavel_parentesco, 'UTF-8'),
-            'contato_principal'             => $request->contato_principal,
-            'possui_transporte'             => $request->possui_transporte,
-            'mora_com'                      => mb_strtoupper($request->mora_com, 'UTF-8'),
-            'familiar_participa'            => $request->familiar_participa,
-            'familiar_quem'                 => mb_strtoupper($request->familiar_quem, 'UTF-8'),
-            'familiar_grupo'                => mb_strtoupper($request->familiar_grupo, 'UTF-8'),
-            'tem_parente_inscrito'          => $request->tem_parente_inscrito,
-            'parente_inscrito_nome'         => mb_strtoupper($request->parente_inscrito_nome, 'UTF-8'),
-            'uso_medicamento'               => $request->uso_medicamento,
-            'uso_medicamento_descricao'     => mb_strtoupper($request->uso_medicamento_descricao, 'UTF-8'),
-            'tratamento_saude'              => $request->tratamento_saude,
-            'tratamento_saude_descricao'    => mb_strtoupper($request->tratamento_saude_descricao, 'UTF-8'),
-            'restricao_alimentar'           => $request->restricao_alimentar,
-            'restricao_alimentar_descricao' => mb_strtoupper($request->restricao_alimentar_descricao, 'UTF-8'),
-            'alergia'                       => $request->alergia,
-            'alergia_descricao'             => mb_strtoupper($request->alergia_descricao, 'UTF-8'),
-            'espectro_autista'              => $request->espectro_autista,
-            'espectro_autista_descricao'    => mb_strtoupper($request->espectro_autista_descricao, 'UTF-8'),
-        ]);
-
-        $adolecente->save();
-
-        return redirect(route('adolecente.index'))->with('msg', 'Inscrição atualizada com sucesso!');
-    }
+    }   
 
     public function destroy(Adolecente $adolecente){
 

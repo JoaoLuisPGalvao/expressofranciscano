@@ -112,7 +112,7 @@
                             </div>
                             
                             <a class="nav-link collapsed py-2" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEncontristas" aria-expanded="false" aria-controls="collapseEncontristas">
-                                <div class="sb-nav-link-icon"><i class="bi bi-person-raised-hand fs-5"></i></div>
+                                <div class="sb-nav-link-icon"><i class="bi bi-person-fill-check fs-5"></i></div>
                                 Encontristas
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
@@ -120,6 +120,17 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link py-1" href="{{ route('encontristas.index') }}">- Cadastro</a> 
                                     <a class="nav-link py-1" href="{{ route('fraternidades.index') }}">- Fraternidades</a>                                            
+                                </nav>
+                            </div>
+
+                            <a class="nav-link collapsed py-2" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEncontreiros" aria-expanded="false" aria-controls="collapseEncontreiros">
+                                <div class="sb-nav-link-icon"><i class="bi bi-person-check-fill fs-5"></i></div>
+                                Encontreiros
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseEncontreiros" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link py-1" href="">- Cadastro</a>                                                                               
                                 </nav>
                             </div>
                             

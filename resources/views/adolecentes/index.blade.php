@@ -15,7 +15,7 @@
                         <select name="status" class="form-select form-select-sm me-2">
                             <option value="">Status...</option>
                             @foreach($listaStatus as $key => $nome)
-                            <option value="{{ $key }}" {{ $status == $key ? 'selected' : '' }}>{{ $nome }}</option>
+                            <option value="{{ $key }}" {{ $status == $key ? 'selected' : '' }}>{{ $key }} - {{ $nome }}</option>
                             @endforeach
                         </select>
                         <x-btn-pesquisar title="Pesquisar"></x-btn-pesquisar>   
@@ -29,12 +29,12 @@
             <x-table>
                 <x-slot name="thead">                   
                     <tr>
-                        <th style="width: 15%">STATUS</th>
+                        <th style="width: 10%">STATUS</th>
                         <th style="width: 40%">NOME</th>
                         <th style="width: 10%">DATA NASC</th>
-                        <th style="width: 10%">GENERO</th>
+                        <th style="width: 10%">GENERO</th>                       
                         <th style="width: 15%">INSCRIÇÃO</th>                                             
-                        <th style="width: 10%">AÇÕES</th>
+                        <th style="width: 5%">AÇÕES</th>
                     </tr>                
                 </x-slot> 
                 @foreach($adolecentes as $adolecente)                        
@@ -47,18 +47,15 @@
                     <td>{{ $adolecente->nome }}</td>                         
                     <td>{{ formatDate($adolecente->data_nasc) }}</td>                    
                     <td>{{ $generos[$adolecente->genero] }}</td>                    
-                    <td>{{ formatDateTime($adolecente->created_at) }}</td>                                     
-
-                    <td class="py-1">
-                        <div class="d-flex align-items-center gap-2">
-                            <x-btn-a-generico href="{{ route('adolecentes.aprovar', $adolecente) }}" icone="fas fa-thumbs-up" classe="btn-outline-success btn-sm {{ $adolecente->status == \App\Enums\StatusInscricao::VISUALIZADO ? '' : 'disabled' }}" title="Aprovar inscrição"></x-btn-a-generico>
-                            <x-dropdown-acao        
-                                :item-id="$adolecente->id" 
-                                :ficha-route="route('adolecentes.ficha', $adolecente)" ficha-label="Ficha de inscrição"        
-                                :edit-route="route('adolecentes.edit', $adolecente)"
-                                :delete-route="route('adolecentes.destroy', $adolecente)" >
-                            </x-dropdown-acao>
-                        </div>
+                    <td>{{ formatDateTime($adolecente->created_at) }}</td> 
+                    <td class="py-1">                                               
+                        <x-dropdown-acao        
+                            :item-id="$adolecente->id" 
+                            :ficha-route="route('adolecentes.ficha', $adolecente)" ficha-label="Ficha de inscrição" 
+                            :aprovar-route="route('adolecentes.aprovar', $adolecente)" aprovar-label="Aprovar Inscrição"
+                            :aprovar-disabled="$adolecente->status <> '2'"                                             
+                            :delete-route="route('adolecentes.destroy', $adolecente)" >
+                        </x-dropdown-acao>                        
                     </td>
                 </tr>  
                 @endforeach 

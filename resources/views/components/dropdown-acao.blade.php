@@ -12,6 +12,15 @@
             </li>
         @endif
 
+        {{-- Botão Aprovar (se existir rota) --}}
+        @if($aprovarRoute)
+            <li>
+                <a id="btnAprovar{{ $itemId }}" class="dropdown-item {{ $aprovarDisabled ? 'disabled' : '' }}" href="{{ $aprovarRoute }}">
+                    <i class="far fa-thumbs-up text-success me-2"></i>{{ $aprovarLabel }}
+                </a>
+            </li>
+        @endif
+
         {{-- Botão e-mail (se existir rota) --}}
         @if($emailRoute)
             <li>
