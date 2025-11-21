@@ -27,7 +27,7 @@ class Equipes{
             self::PAZ_E_BEM                 => 'Paz e Bem',
             self::ARRUMACAO                 => 'Arrumação',
             self::MERCEARIA                 => 'Marcearia',
-            self::IRMAO_SOL_IRMA_LUA        => 'Irmão Sol e Irmã lua',
+            self::IRMAO_SOL_IRMA_LUA        => 'Irmão Sol e Irmã Lua',
             self::PRODUCAO                  => 'Produção',
             self::IMAGEM_ACAO               => 'Imagem e Ação',
             self::PERFEITA_ALEGRIA          => 'Perfeita Alegria',
