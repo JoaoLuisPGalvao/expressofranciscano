@@ -8,7 +8,7 @@
     <x-card size="col-12 col-lg-11 col-xxl-10">
         <x-slot name="header">
             <div class="d-flex justify-content-between align-items-center">
-                <h4 class="mb-0 fw-bold">Inscrições</h4>
+                <h4 class="mb-0 fw-bold">Adolecentes - Inscrições</h4>
                 <div class="d-flex gap-2">   
                     <form class="d-flex align-items-center" method="GET" action="">
                         <input type="number" min="2024" class="form-control form-control-sm me-2 text-center" name="ano" value="{{ $ano }}">

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Adolecentes')
+@section('title', 'Adultos')
 
 @section('content')
 
@@ -8,7 +8,7 @@
     <x-card size="col-12 col-lg-11 col-xxl-10">
         <x-slot name="header">
             <div class="d-flex justify-content-between align-items-center">
-                <h4 class="mb-0 fw-bold">Inscrições</h4>
+                <h4 class="mb-0 fw-bold">Adultos - Inscrições</h4>
                 <div class="d-flex gap-2">   
                     <form class="d-flex align-items-center" method="GET" action="">
                         <input type="number" min="2024" class="form-control form-control-sm me-2 text-center" name="ano" value="{{ $ano }}">
@@ -20,7 +20,7 @@
                         </select>
                         <x-btn-pesquisar title="Pesquisar"></x-btn-pesquisar>   
                     </form>
-                    <x-btn-gerar-csv href="{!! route('adolecentes.gerarCsv', ['ano' => request()->get('ano'), 'status' => request()->get('status')]) !!}" title="Gerar Excel"></x-btn-gerar-csv>                    
+                    <x-btn-gerar-csv href="{!! route('adultos.gerarCsv', ['ano' => request()->get('ano'), 'status' => request()->get('status')]) !!}" title="Gerar Excel"></x-btn-gerar-csv>                    
                 </div>
             </div>
         </x-slot>
@@ -30,33 +30,32 @@
                 <x-slot name="thead">                   
                     <tr>
                         <th style="width: 15%">STATUS</th>
-                        <th style="width: 40%">NOME</th>
-                        <th style="width: 10%">DATA NASC</th>
-                        <th style="width: 10%">GENERO</th>
+                        <th style="width: 30%">NOME</th>
+                        <th style="width: 10%">PERFIL</th>
+                        <th style="width: 20%">CONTATO</th>
                         <th style="width: 15%">INSCRIÇÃO</th>                                             
                         <th style="width: 10%">AÇÕES</th>
                     </tr>                
                 </x-slot> 
-                @foreach($adolecentes as $adolecente)                        
+                @foreach($adultos as $adulto)                        
                 <tr>
                     <td class="text-center">
-                        <span class="badge {{ $statusClasses[$adolecente->status] ?? 'bg-secondary' }}" style="font-size: 0.7rem;">
-                            {{ $listaStatus[$adolecente->status] ?? 'Desconhecido' }}
+                        <span class="badge {{ $statusClasses[$adulto->status] ?? 'bg-secondary' }}" style="font-size: 0.7rem;">
+                            {{ $listaStatus[$adulto->status] ?? 'Desconhecido' }}
                         </span>
                     </td>
-                    <td>{{ $adolecente->nome }}</td>                         
-                    <td>{{ formatDate($adolecente->data_nasc) }}</td>                    
-                    <td>{{ $generos[$adolecente->genero] }}</td>                    
-                    <td>{{ formatDateTime($adolecente->created_at) }}</td>                                     
-
+                    <td>{{ $adulto->nome }}</td>                         
+                    <td>{{ $perfis[$adulto->perfil] }}</td>                    
+                    <td>{{ $adulto->contato }}</td>                    
+                    <td>{{ formatDateTime($adulto->created_at) }}</td>
                     <td class="py-1">
                         <div class="d-flex align-items-center gap-2">
-                            <x-btn-a-generico href="{{ route('adolecentes.aprovar', $adolecente) }}" icone="fas fa-thumbs-up" classe="btn-outline-success btn-sm {{ $adolecente->status == \App\Enums\StatusInscricao::VISUALIZADO ? '' : 'disabled' }}" title="Aprovar inscrição"></x-btn-a-generico>
+                            <x-btn-a-generico href="{{ route('adultos.aprovar', $adulto) }}" icone="fas fa-thumbs-up" classe="btn-outline-success btn-sm {{ $adulto->status == \App\Enums\StatusInscricao::VISUALIZADO ? '' : 'disabled' }}" title="Aprovar inscrição"></x-btn-a-generico>
                             <x-dropdown-acao        
-                                :item-id="$adolecente->id" 
-                                :ficha-route="route('adolecentes.ficha', $adolecente)" ficha-label="Ficha de inscrição"        
-                                :edit-route="route('adolecentes.edit', $adolecente)"
-                                :delete-route="route('adolecentes.destroy', $adolecente)" >
+                                :item-id="$adulto->id" 
+                                :ficha-route="route('adultos.ficha', $adulto)" ficha-label="Ficha de inscrição"        
+                                :edit-route="route('adultos.edit', $adulto)"
+                                :delete-route="route('adultos.destroy', $adulto)" >
                             </x-dropdown-acao>
                         </div>
                     </td>

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Adolecente;
 use App\Enums\StatusInscricao;
+use App\Models\Adulto;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -13,8 +14,14 @@ class ViewServiceProvider extends ServiceProvider
     {
         // Compartilha o contador de pendentes com todas as views
         View::composer('*', function ($view) {
-            $pendentesCount = Adolecente::where('status', StatusInscricao::PENDENTE)->count();
-            $view->with('pendentesCount', $pendentesCount);
+            
+            $adolecentesPendentes = Adolecente::where('status', StatusInscricao::PENDENTE)->count();
+            $adultosPendentes     = Adulto::where('status', StatusInscricao::PENDENTE)->count();
+
+            $view->with([
+                'pendentesAdolecentes' => $adolecentesPendentes,
+                'pendentesAdultos'     => $adultosPendentes,
+            ]);
         });
     }
 

@@ -223,6 +223,11 @@ class AdolecentesController extends Controller
 
     public function destroy(Adolecente $adolecente){
 
+        // Se existir foto, deleta o arquivo
+        if ($adolecente->foto && Storage::disk('public')->exists($adolecente->foto)) {
+            Storage::disk('public')->delete($adolecente->foto);
+        }
+
         $adolecente->delete();
 
         return redirect(route('adolecentes.index'))->with('msg', 'Registro excluído com sucesso!');

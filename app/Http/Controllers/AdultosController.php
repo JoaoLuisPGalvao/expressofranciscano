@@ -85,9 +85,7 @@ class AdultosController extends Controller
             'frequenta_paroquia'            => $request->frequenta_paroquia,
             'qual_paroquia'                 => $request->qual_paroquia,
             'participou_expresso'           => $request->participou_expresso,
-            'ano_participacao'              => $request->ano_participacao,            
-            'pai_nome'                      => mb_strtoupper($request->pai_nome, 'UTF-8'),
-            'pai_contato'                   => $request->pai_contato,            
+            'ano_participacao'              => $request->ano_participacao, 
             'serviu_expresso'               => $request->serviu_expresso,            
             'experiencias_servico'          => mb_strtoupper($request->experiencias_servico, 'UTF-8'),            
             'vagao_1'                       => $request->vagao_1,
@@ -118,7 +116,7 @@ class AdultosController extends Controller
             $adulto->save();
         }                
 
-        return view('adultos.edit', compact('simNao', 'ano', 'perfis', 'equipes')); 
+        return view('adultos.edit', compact('adulto', 'simNao', 'perfis', 'equipes')); 
     }
 
     public function update(Adulto $adulto, AdultoRequest $request){
@@ -160,9 +158,7 @@ class AdultosController extends Controller
             'frequenta_paroquia'    => $request->frequenta_paroquia,
             'qual_paroquia'         => $request->qual_paroquia,
             'participou_expresso'   => $request->participou_expresso,
-            'ano_participacao'      => $request->ano_participacao,            
-            'pai_nome'              => mb_strtoupper($request->pai_nome, 'UTF-8'),
-            'pai_contato'           => $request->pai_contato,            
+            'ano_participacao'      => $request->ano_participacao,
             'serviu_expresso'       => $request->serviu_expresso,            
             'experiencias_servico'  => mb_strtoupper($request->experiencias_servico, 'UTF-8'),            
             'vagao_1'               => $request->vagao_1,
@@ -179,6 +175,11 @@ class AdultosController extends Controller
     }
 
     public function destroy(Adulto $adulto){
+
+        // Se existir foto, deleta o arquivo
+        if ($adulto->foto && Storage::disk('public')->exists($adulto->foto)) {
+            Storage::disk('public')->delete($adulto->foto);
+        }
 
         $adulto->delete();
 
@@ -200,19 +201,20 @@ class AdultosController extends Controller
         $simNao  = SimNao::lista();  
         $equipes = Equipes::equipes(); 
 
-        $pdf = Pdf::loadView('adultos.ficha', compact('adulto', 'simNao', 'ano', 'perfis', 'equipes'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('adultos.ficha', compact('adulto', 'simNao', 'perfis', 'equipes'))->setPaper('a4', 'portrait');
 
         return response($pdf->output())->header('Content-Type', 'application/pdf');
     }
 
     public function gerarCsv(){
 
-        $perfis  = PerfilAdultos::lista();     
-        $simNao  = SimNao::lista();  
-        $equipes = Equipes::equipes(); 
-        $request = request();
-        $ano     = $request->input('ano', Carbon::now()->format('Y'));     
-        $status  = $request->input('status'); 
+        $perfis         = PerfilAdultos::lista();     
+        $simNao         = SimNao::lista();  
+        $equipes        = Equipes::equipes(); 
+        $listaStatus    = StatusInscricao::lista(); 
+        $request        = request();
+        $ano            = $request->input('ano', Carbon::now()->format('Y'));   
+        $status         = $request->input('status'); 
 
         $query = Adulto::where('ano_expresso', $ano);
 
@@ -249,11 +251,11 @@ class AdultosController extends Controller
                 'ANO PARTICIPAÇÃO'          => $adulto->ano_participacao ?? '',
                 'JÁ SERVIU NO EXPRESSO?'    => $simNao[$adulto->serviu_expresso] ?? '',
                 'EXPERIÊNCIAS DE SERVIÇO'   => $adulto->experiencias_servico ?? '',
-                'VAGÕES QUE SE IDENTIFICA'  => $equipes[$adulto->vagao_1] ?? ''.', '.$equipes[$adulto->vagao_2] ?? ''.', '.$equipes[$adulto->vagao_3] ?? '',
+                'VAGÕES QUE SE IDENTIFICA'  => ($equipes[$adulto->vagao_1] ?? '') . ', ' . ($equipes[$adulto->vagao_2] ?? '') . ', ' . ($equipes[$adulto->vagao_3] ?? ''),
                 'PARTICIPA DE PASTORAL?'    => $simNao[$adulto->participa_pastoral] ?? '',
                 'QUAL PASTORAL'             => $adulto->qual_pastoral ?? '',
                 'JÁ SERVIU NO EJC/ECC?'     => $simNao[$adulto->serviu_ejc_ecc] ?? '',
-                'STATUS'                    => ($listaStatus[$adulto->status] ?? ''),             
+                'STATUS'                    => $listaStatus[$adulto->status] ?? '',             
             ];
             
             fputcsv($arquivoAberto, $adultoArray, ';');

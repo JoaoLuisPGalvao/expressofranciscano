@@ -12,7 +12,7 @@
             </td>
             <td style="text-align: center; padding-top: 15px;">
                 <h3>PARÓQUIA SÃO FRANCISCO DE ASSIS</h3>
-                <h3>Ficha de Inscrição</h3>
+                <h3>Ficha de Inscrição - Adolecentes</h3>
             </td>
             <td style="width: 100px; text-align: left;">
                 <img src="{{ public_path('/img/logo_expresso.jpg') }}" alt="Logo" class="logo">

@@ -146,7 +146,7 @@
                         @endforeach
                      </select>
                      <label for="participou_expresso">
-                        * Já pasticipou do expresso ?
+                        * Já participou do expresso ?
                      </label>
                   </div>
                </div>
