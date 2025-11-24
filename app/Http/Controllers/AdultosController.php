@@ -50,7 +50,9 @@ class AdultosController extends Controller
         return view('adultos.inscricao', compact('simNao', 'ano', 'perfis', 'equipes')); 
     }
 
-    public function store(AdultoRequest $request){
+    public function store(AdultoRequest $request){   
+        
+        //dd($request);
         
         $arquivoPath = null;
 

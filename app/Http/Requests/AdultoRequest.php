@@ -15,6 +15,10 @@ class AdultoRequest extends FormRequest
     public function rules(): array
     {
         return [
+
+            // Ciente
+            'ciente'             => 'required',
+
             // Dados pessoais
             'nome'               => 'required|string|max:255',
             'perfil'             => 'required|integer',
@@ -67,6 +71,9 @@ class AdultoRequest extends FormRequest
     public function messages(): array
     {
         return [
+
+            //Ciente           
+            'ciente.required' => 'É necessário confirmar que está ciente das informações apresentadas.',
 
             //Dados Pessoais            
             'nome.required' => 'O campo Nome é obrigatório.',

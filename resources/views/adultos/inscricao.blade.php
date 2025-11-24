@@ -5,13 +5,6 @@
 @section('content')
 
 @if(!session('msg'))
-   <div class="alert alert-danger alert-dismissible fade show col-12 col-md-10 col-xl-9 col-xxl-8 mx-auto" role="alert">
-      <span>
-         O EXPRESSO FRANCISCANO tem como prioridade acolher, para o serviço, pais e mães solteiros, casais em segunda união, casais não sacramentados (sem o sacramento do matrimônio), divorciados e viúvos. <strong>Obs: inscrição não assegura sua vaga.</strong>
-      </span>      
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-   </div>
-
    <form action="{{ route('adultos.store') }}" method="POST" enctype="multipart/form-data">
    @csrf
       <x-card size="col-12 col-md-10 col-xl-9 col-xxl-8">
@@ -21,7 +14,24 @@
             </div>
          </x-slot>
          
-         <x-slot name="body">         
+         <x-slot name="body">    
+            <div class="row">
+               <div class="col-12 col">
+                  <div class="alert alert-danger" role="alert">
+                     <span>
+                        O EXPRESSO FRANCISCANO tem como prioridade acolher, para o serviço, pais e mães solteiros, casais em segunda união, casais não sacramentados (sem o sacramento do matrimônio), divorciados e viúvos. <strong>Obs: inscrição não assegura sua vaga.</strong>
+                     </span> 
+                     
+                     <div class="form-check mt-1">
+                        <input class="form-check-input" type="checkbox" name="ciente" id="checkDefault" value="true">
+                        <label class="form-check-label" for="checkDefault">
+                           * Estou ciente
+                        </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
             <div class="row">
                <div class="col-12 col-md-5">
                   <div class="form-floating mb-2">
